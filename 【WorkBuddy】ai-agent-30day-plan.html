@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Agent 转型 · 30 天可执行学习计划</title>
+<style>
+  :root{
+    --bg:#F6F8FC; --surface:#FFFFFF; --ink:#0F172A; --muted:#64748B; --line:#E2E8F0;
+    --primary:#6366F1; --primary-soft:#EEF2FF;
+    --violet:#8B5CF6; --violet-soft:#F5F3FF;
+    --cyan:#06B6D4; --cyan-soft:#ECFEFF;
+    --emerald:#10B981; --emerald-soft:#ECFDF5;
+    --amber:#F59E0B; --amber-soft:#FFFBEB;
+    --rose:#F43F5E; --rose-soft:#FFF1F2;
+    --shadow:0 1px 2px rgba(15,23,42,.04),0 8px 24px rgba(15,23,42,.06);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"SF Pro SC","PingFang SC","Microsoft YaHei",Segoe UI,Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+  a{color:var(--primary);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .wrap{max-width:1140px;margin:0 auto;padding:32px 22px 80px}
+  .hero{background:linear-gradient(135deg,#6366F1 0%,#8B5CF6 55%,#06B6D4 100%);border-radius:24px;padding:34px 32px;color:#fff;box-shadow:var(--shadow);position:relative;overflow:hidden}
+  .hero::after{content:"";position:absolute;right:-40px;top:-40px;width:240px;height:240px;border-radius:50%;background:rgba(255,255,255,.08)}
+  .hero h1{margin:0 0 8px;font-size:29px;font-weight:700;letter-spacing:.4px}
+  .hero p{margin:0;opacity:.92;font-size:14px;line-height:1.65;max-width:820px}
+  .hero .meta{display:flex;gap:12px;margin-top:20px;flex-wrap:wrap}
+  .chip{background:rgba(255,255,255,.18);backdrop-filter:blur(8px);padding:6px 13px;border-radius:999px;font-size:12.5px;border:1px solid rgba(255,255,255,.25)}
+  .chip b{font-weight:600}
+
+  /* How-to-use bar */
+  .howto{margin-top:24px;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--primary);border-radius:12px;padding:16px 20px;box-shadow:var(--shadow);font-size:13px;color:var(--ink);line-height:1.7}
+  .howto b{color:var(--primary)}
+
+  /* Progress */
+  .progress{margin-top:22px;background:var(--surface);border-radius:16px;padding:18px 24px;box-shadow:var(--shadow);display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  .progress .label{font-size:13px;color:var(--muted)}
+  .progress .bar{flex:1;min-width:200px;height:10px;background:#E2E8F0;border-radius:999px;overflow:hidden}
+  .progress .fill{height:100%;background:linear-gradient(90deg,#6366F1,#8B5CF6);width:0%;transition:width .3s ease}
+  .progress .count{font-size:14px;font-weight:600}
+  button.reset{background:#fff;border:1px solid var(--line);border-radius:8px;padding:6px 12px;font-size:12px;cursor:pointer;color:var(--muted)}
+
+  section{margin-top:34px}
+  .sec-title{display:flex;align-items:center;gap:10px;margin:0 0 6px;font-size:18px;font-weight:700}
+  .sec-title .dot{width:6px;height:18px;border-radius:3px;background:linear-gradient(180deg,#6366F1,#8B5CF6)}
+  .sec-sub{color:var(--muted);font-size:13px;margin:0 0 18px}
+
+  /* Tabs */
+  .tabs{display:flex;gap:8px;border-bottom:1px solid var(--line);margin-top:18px;margin-bottom:18px;flex-wrap:wrap}
+  .tab{padding:10px 15px;font-size:13px;font-weight:600;color:var(--muted);border-bottom:2px solid transparent;cursor:pointer;border-radius:8px 8px 0 0;transition:.15s}
+  .tab:hover{color:var(--ink)}
+  .tab.active{color:var(--primary);border-bottom-color:var(--primary);background:#fff}
+  .tab-num{display:inline-block;width:18px;height:18px;border-radius:50%;background:var(--primary-soft);color:var(--primary);font-size:11px;text-align:center;line-height:18px;margin-right:6px}
+  .tab.active .tab-num{background:var(--primary);color:#fff}
+  .panel{display:none}
+  .panel.active{display:block;animation:fade .2s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+  .panel-goal{display:flex;gap:14px;align-items:center;background:linear-gradient(135deg,#EEF2FF,#F5F3FF);border:1px solid #E0E7FF;border-radius:14px;padding:16px 22px;margin-bottom:14px}
+  .panel-goal .emoji{font-size:26px}
+  .panel-goal h3{margin:0 0 3px;font-size:15.5px;font-weight:700}
+  .panel-goal p{margin:0;font-size:12.5px;color:var(--muted)}
+
+  .langbar{background:linear-gradient(135deg,#ECFEFF,#F0FDF4);border:1px solid #A7F3D0;border-radius:12px;padding:12px 16px;margin-bottom:18px;font-size:12.5px;color:#065F46;line-height:1.6}
+  .langbar b{color:#047857}
+
+  /* Days */
+  .days{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  @media (max-width:760px){.days{grid-template-columns:1fr}}
+  .day{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:15px 16px;box-shadow:var(--shadow);position:relative;transition:.15s}
+  .day:hover{border-color:#C7D2FE;transform:translateY(-2px)}
+  .day.checked{background:#F0FDF4;border-color:#86EFAC}
+  .day .d{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;gap:8px}
+  .day .dnum{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.5px;white-space:nowrap}
+  .day .dtag{font-size:10px;color:var(--muted);background:#F1F5F9;padding:2px 7px;border-radius:4px;white-space:nowrap}
+  .day h4{margin:2px 0 10px;font-size:14px;font-weight:700;line-height:1.4}
+  .day input[type=checkbox]{appearance:none;width:18px;height:18px;border:1.5px solid #CBD5E1;border-radius:5px;cursor:pointer;flex-shrink:0;position:relative}
+  .day input[type=checkbox]:checked{background:var(--emerald);border-color:var(--emerald)}
+  .day input[type=checkbox]:checked::after{content:"✓";color:#fff;font-size:12px;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-weight:700}
+
+  /* Learn block */
+  .learn{background:var(--primary-soft);border:1px solid #E0E7FF;border-radius:9px;padding:9px 11px;margin-bottom:9px}
+  .learn .lbl{font-size:11px;font-weight:700;color:var(--primary);margin-bottom:5px;display:flex;align-items:center;gap:5px}
+  .srcs{display:flex;flex-direction:column;gap:4px}
+  .src{font-size:11.5px;color:var(--ink);background:#fff;border:1px solid #E0E7FF;border-radius:6px;padding:4px 8px;line-height:1.45}
+  .src .chap{color:var(--primary);font-weight:600}
+  .src .badge{display:inline-block;font-size:9.5px;padding:1px 5px;border-radius:4px;background:var(--violet-soft);color:var(--violet);margin-left:6px;font-weight:600}
+  .src .badge.py{background:#DBEAFE;color:#1D4ED8}
+  .src .badge.js{background:#FEF3C7;color:#B45309}
+  .src .badge.zh{background:#DCFCE7;color:#15803D}
+  .src .badge.en{background:#FCE7F3;color:#BE185D}
+  .dur{font-size:10.5px;color:var(--muted);margin-top:6px}
+
+  /* Steps */
+  .steps{margin:0 0 9px;padding-left:18px;font-size:12px;color:var(--ink);line-height:1.6}
+  .steps li{margin-bottom:4px}
+  .steps code{background:#F1F5F9;padding:1px 5px;border-radius:4px;font-size:11px;color:#0F172A}
+
+  .output{font-size:11.5px;background:var(--emerald-soft);color:#065F46;border-radius:8px;padding:7px 9px;line-height:1.5}
+  .output b{color:#047857;font-weight:700}
+
+  /* Projects timeline */
+  .timeline{position:relative;padding-left:8px}
+  .timeline::before{content:"";position:absolute;left:30px;top:6px;bottom:6px;width:2px;background:linear-gradient(180deg,#6366F1,#8B5CF6,#06B6D4)}
+  .pj{position:relative;padding:13px 14px 13px 72px;background:var(--surface);border:1px solid var(--line);border-radius:12px;margin-bottom:12px;box-shadow:var(--shadow)}
+  .pj::before{content:attr(data-n);position:absolute;left:14px;top:13px;width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#6366F1,#8B5CF6);color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:14px;box-shadow:0 0 0 4px #F6F8FC}
+  .pj h4{margin:0 0 4px;font-size:14px;font-weight:700}
+  .pj .desc{font-size:12px;color:var(--muted);margin:0 0 7px;line-height:1.55}
+  .pj .stack{font-size:10.5px;color:var(--ink);background:var(--primary-soft);padding:3px 7px;border-radius:5px;display:inline-block;margin:0 5px 4px 0}
+
+  /* Mot / Risk */
+  .mot{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  @media (max-width:720px){.mot{grid-template-columns:1fr}}
+  .mcard{background:var(--surface);border-radius:12px;padding:15px 18px;border:1px solid var(--line);box-shadow:var(--shadow)}
+  .mcard h5{margin:0 0 7px;font-size:13px;font-weight:700;color:var(--primary)}
+  .mcard ul{margin:0;padding-left:17px;font-size:12.5px;color:var(--ink);line-height:1.8}
+  .risk{background:linear-gradient(135deg,#FFFBEB,#FFF7ED);border:1px solid #FED7AA;border-radius:14px;padding:17px 22px}
+  .risk h5{margin:0 0 10px;font-size:14px;font-weight:700;color:#B45309}
+  .risk ul{margin:0;padding-left:17px;color:#78350F;font-size:13px;line-height:1.85}
+
+  footer{margin-top:46px;text-align:center;color:var(--muted);font-size:12px}
+  .badge2{display:inline-flex;gap:6px;align-items:center;background:var(--primary-soft);color:var(--primary);padding:4px 11px;border-radius:999px;font-size:11px;font-weight:600}
+  .legend{display:flex;gap:14px;font-size:11.5px;color:var(--muted);flex-wrap:wrap;margin:10px 0 0}
+  .legend span{display:inline-flex;align-items:center;gap:5px}
+  .swatch{width:11px;height:11px;border-radius:3px}
+  @media print{.tabs,.progress,button{display:none!important}.panel{display:block!important}.day{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <h1>🚀 AI Agent 转型 · 30 天可执行学习计划</h1>
+    <p>从 Web 前端到 AI Agent / Agent Harness 工程师。每一天都精确到「📚 学哪份资料哪一章 → 🛠 按步骤做 → ✅ 产出并验收」。资源已全部替换为<b>中文</b>（官方中文文档 + Datawhale 中文课 + 中文技术文章），权威且国内可流畅访问。</p>
+    <div class="meta">
+      <span class="chip">⏱ 总投入约 <b>108 小时</b></span>
+      <span class="chip">📅 <b>30 天</b></span>
+      <span class="chip">🛠 <b>4 个</b>作品集项目</span>
+      <span class="chip">🎯 <b>2 类</b>目标岗位</span>
+    </div>
+  </div>
+
+  <!-- HOW TO USE -->
+  <div class="howto">
+    <b>怎么用这份计划：</b> 每天打开对应 Tab → 先看「📚 学什么」里的链接（都是免费 / 官方 / <b>中文</b>资源，国内可直连）→ 按「🛠 怎么做」的步骤照着敲 → 最后用「✅ 产出」的验收标准自检，跑通了再勾选打卡。卡住时把报错贴给我，我陪你 debug。<br>
+    <b>语言策略：</b> 你是前端，<b>D1–D5 用 Node.js</b>（零 SDK 依赖，今天就能跑）；<b>D6 起切 Python</b>（LangChain/AutoGen/CrewAI/deepseek-harness 全是 Python，Harness 岗硬性要求）。
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress">
+    <span class="label">打卡进度</span>
+    <div class="bar"><div class="fill" id="fill"></div></div>
+    <span class="count" id="count">0 / 30</span>
+    <button class="reset" onclick="resetAll()">重置</button>
+  </div>
+
+  <!-- TABS -->
+  <section>
+    <h2 class="sec-title"><span class="dot"></span>四、4 周学习计划（每日打卡）</h2>
+    <p class="sec-sub">点击 Tab 切换周次；每天含「学什么 / 怎么做 / 产出」三段，勾选状态自动保存在本机。</p>
+    <div class="tabs" id="tabs">
+      <div class="tab active" data-target="w1"><span class="tab-num">1</span>W1 筑基</div>
+      <div class="tab" data-target="w2"><span class="tab-num">2</span>W2 LangChain/LG</div>
+      <div class="tab" data-target="w3"><span class="tab-num">3</span>W3 Multi-Agent</div>
+      <div class="tab" data-target="w4"><span class="tab-num">4</span>W4 Harness 实战</div>
+    </div>
+
+    <!-- ============ W1 ============ -->
+    <div class="panel active" id="w1">
+      <div class="panel-goal">
+        <div class="emoji">🎯</div>
+        <div><h3>W1 目标：跑通第一个 Agent 地基</h3><p>读完 Hello-Agents 前 3 章 + 用 Node 跑通 API / Function Calling / 最小 ReAct + 启动项目 1</p></div>
+      </div>
+      <div class="langbar">💡 <b>本周全程用 Node.js</b>。新建文件夹 <code>agent-demo/</code>，所有代码放里面。Node 18+ 自带 <code>fetch</code>，<b>无需安装任何 SDK</b> 即可调 DeepSeek。</div>
+
+      <div class="days">
+
+        <!-- D1 -->
+        <div class="day" data-day="D1">
+          <div class="d"><span class="dnum">DAY 1</span><span class="dtag">周一 · 3h</span><input type="checkbox" data-day="D1"></div>
+          <h4>环境与 LLM API：跑通第一个 chat</h4>
+          <div class="learn">
+            <div class="lbl">📚 学什么（精确章节）</div>
+            <div class="srcs">
+              <a class="src" href="https://platform.deepseek.com/api-docs/" target="_blank">DeepSeek API Docs · <span class="chap">「Your First API Call」</span><span class="badge zh">中文</span></a>
+              <a class="src" href="https://datawhalechina.github.io/llm-cookbook/" target="_blank">Datawhale《LLM Cookbook》· <span class="chap">第1章「面向开发者的 Prompt Engineering」（messages 角色 system/user/assistant）</span><span class="badge zh">中文</span></a>
+            </div>
+            <div class="dur">⏱ 阅读 40min · 编码 2h</div>
+          </div>
+          <ol class="steps">
+            <li>打开 <code>platform.deepseek.com/api_keys</code> 注册并创建 Key（国内有免费额度），存到 <code>.env</code></li>
+            <li>新建 <code>chat.mjs</code>，用 <code>fetch('https://api.deepseek.com/chat/completions')</code> 发 POST（照抄官方示例）</li>
+            <li>body 里 <code>model:'deepseek-v4-flash'</code>，<code>messages:[{role:'system',...},{role:'user',...}]</code></li>
+            <li>改成 <code>while</code> 循环：终端读一行 → 放进 messages → 发请求 → 打印回复 → 显示 <code>usage</code></li>
+          </ol>
+          <div class="output"><b>✅ 产出：</b><code>chat.mjs</code> ｜ <b>验收：</b>运行后连续对话 ≥3 轮，且每轮都打印 <code>prompt_tokens / completion_tokens</code></div>
+        </div>
+
+        <!-- D2 -->
+        <div class="day" data-day="D2">
+          <div class="d"><span class="dnum">DAY 2</span><span class="dtag">周二 · 3h</span><input type="checkbox" data-day="D2"></div>
+          <h4>Function Calling：让 LLM 自动调工具</h4>
+          <div class="learn">
+            <div class="lbl">📚 学什么（精确章节）</div>
+            <div class="srcs">
+              <a class="src" href="https://api-docs.deepseek.com/guides/function_calling" target="_blank">DeepSeek Docs · <span class="chap">「Function Calling」指南</span><span class="badge zh">中文</span></a>
+              <a class="src" href="https://datawhalechina.github.io/llm-cookbook/" target="_blank">Datawhale《LLM Cookbook》· <span class="chap">第2章「搭建基于 ChatGPT 的问答系统」（Function Calling 章节）</span><span class="badge zh">中文</span></a>
+            </div>
+            <div class="dur">⏱ 阅读 50min · 编码 2h</div>
+          </div>
+          <ol class="steps">
+            <li>定义 2 个 JS 函数：<code>get_weather(city)</code>、<code>calculator(expr)</code>，返回真实结果</li>
+            <li>按文档构造 <code>tools</code> 数组（JSON Schema 描述函数名/参数）</li>
+            <li>发请求时带上 <code>tools</code>，检查返回里的 <code>tool_calls</code></li>
+            <li>用 <code>switch</code> 在本地执行对应函数 → 把结果塞回 <code>messages</code> → 二次请求拿最终自然语言答案</li>
+          </ol>
+          <div class="output"><b>✅ 产出：</b><code>function_calling_demo.mjs</code> ｜ <b>验收：</b>输入"北京天气如何， plus 3*7 等于多少"，模型先调两个工具、再汇总回答</div>
+        </div>
+
+        <!-- D3 -->
+        <div class="day" data-day="D3">
+          <div class="d"><span class="dnum">DAY 3</span><span class="dtag">周三 · 3h</span><input type="checkbox" data-day="D3"></div>
+          <h4>Hello-Agents 第 1–3 章</h4>
+          <div class="learn">
+            <div class="lbl">📚 学什么（精确章节）</div>
+            <div class="srcs">
+              <a class="src" href="https://github.com/datawhalechina/Hello-Agents" target="_blank">Hello-Agents · <span class="chap">README + 第1章「什么是智能体」+ 第2章「LLM 基础」+ 第3章「Agent 基本组件」</span><span class="badge zh">中文</span></a>
+            </div>
+            <div class="dur">⏱ 阅读 2h · 笔记 1h</div>
+          </div>
+          <ol class="steps">
+            <li>通读 3 章，重点理解：感知→规划→行动→观察 的循环</li>
+            <li>找到仓库里 ReAct / Tool-use 的核心代码示例，<b>原样抄一遍</b>跑通</li>
+            <li>对比 D2：你手写的 Function Calling 和书里框架封装的，差别在哪？</li>
+          </ol>
+          <div class="output"><b>✅ 产出：</b><code>hello_agents_notes.md</code>（含"自写 vs 框架"对比）｜ <b>验收：</b>笔记 ≥500 字且能讲清 Agent 循环</div>
+        </div>
+
+        <!-- D4 -->
+        <div class="day" data-day="D4">
+          <div class="d"><span class="dnum">DAY 4</span><span class="dtag">周四 · 3h</span><input type="checkbox" data-day="D4"></div>
+          <h4>ReAct 原理：手写最小 Agent</h4>
+          <div class="learn">
+            <div class="lbl">📚 学什么（精确章节）</div>
+            <div class="srcs">
+              <a class="src" href="https://learnagent.wiki/dev/cards/react" target="_blank">ReAct 范式中文详解 · <span class="chap">「Thought/Action/Observation 循环」</span><span class="badge zh">中文</span></a>
+              <a class="src" href="https://www.cnblogs.com/zhang-yd/p/19058015" target="_blank">Lilian Weng《LLM Powered Autonomous Agents》· <span class="chap">中文翻译「Agent 系统概述」</span><span class="badge zh">中文</span></a>
+              <a class="src" href="https://github.langchain.ac.cn/langgraph/agents/agents/" target="_blank">LangGraph 中文文档 · <span class="chap">「快速入门：从零构建 Agent」</span><span class="badge zh">中文</span><span class="badge py">Py</span></a>
+            </div>
+            <div class="dur">⏱ 阅读 1h · 编码 2h</div>
+          </div>
+          <ol class="steps">
+            <li>看论文 Fig 1：理解 Thought→Action→Observation 三段循环</li>
+            <li>不引任何框架，写 <code>react_minimal.mjs</code>：prompt 里规定"先想(Thought)，再选动作(Action)，再观察(Observation)"</li>
+            <li>接一个真实工具（如 D2 的 calculator），让模型在循环里自己决定是否调用</li>
+            <li>用"3*7+12 等于多少"测试，确认它会 Action→Observation→最终答案</li>
+          </ol>
+          <div class="output"><b>✅ 产出：</b><code>react_minimal.mjs</code>（≤200 行，无依赖）｜ <b>验收：</b>终端能看到 Thought/Action/Observation 逐步打印</div>
+        </div>
+
+        <!-- D5 -->
+        <div class="day" data-day="D5">
+          <div class="d"><span class="dnum">DAY 5</span><span class="dtag">周五 · 3h</span><input type="checkbox" data-day="D5"></div>
+          <h4>Prompt 工程基础</h4>
+          <div class="learn">
+            <div class="lbl">📚 学什么（精确章节）</div>
+            <div class="srcs">
+              <a class="src" href="https://datawhalechina.github.io/llm-cookbook/" target="_blank">Datawhale《LLM Cookbook》· <span class="chap">第1章「Prompt 准则 / 迭代优化 / CoT / 总结 / 对话」</span><span class="badge zh">中文</span></a>
+            </div>
+            <div class="dur">⏱ 看课 1.5h · 实验 1h</div>
+          </div>
+          <ol class="steps">
+            <li>给 D2 的 system prompt 加 Few-shot 示例</li>
+            <li>分别设 <code>temperature:0</code> 与 <code>temperature:1</code>，对同一问题跑 3 次，截图对比稳定性</li>
+            <li>用 CoT（"让我们一步步思考"）让模型先推理再答，对比有无 CoT 的准确率</li>
+          </ol>
+          <div class="output"><b>✅ 产出：</b><code>prompt_compare.md</code>（3 组对比截图）+ 优化版 <code>function_calling_demo.mjs</code> ｜ <b>验收：</b>能说出 temperature 与 CoT 的作用</div>
+        </div>
+
+        <!-- D6 -->
+        <div class="day" data-day="D6">
+          <div class="d"><span class="dnum">DAY 6</span><span class="dtag">周六 · 6h</span><input type="checkbox" data-day="D6"></div>
+          <h4>🚀 项目1启动：命令行程 Agent</h4>
+          <div class="learn">
+            <div class="lbl">📚 学什么（精确章节）</div>
+            <div class="srcs">
+              <a class="src" href="https://github.com/datawhalechina/Hello-Agents" target="_blank">Hello-Agents · <span class="chap">第4章「工具与环境」实战部分</span><span class="badge zh">中文</span></a>
+              <span class="src">参考：你 D2/D4 已写好的 function calling 与 react 代码<span class="badge js">复用</span></span>
+            </div>
+            <div class="dur">⏱ 设计 1h · 编码 4h · README 1h</div>
+          </div>
+          <ol class="steps">
+            <li>选一个你熟悉的工具域：如「本地文件搜索 / GitHub Issue 查询 / 浏览器搜索」</li>
+            <li>用 D4 的 ReAct 循环 + D2 的 tool 注册，做出能根据自然语言调多个工具的 Agent</li>
+            <li>加一个主循环：持续接收指令，自动决定调哪个工具</li>
+            <li>写 <code>README.md</code>（项目介绍 + 运行步骤 + 示例对话）</li>
+          </ol>
+          <div class="output"><b>✅ 产出：</b><code>command-agent/</code> 仓库 + README ｜ <b>验收：</b>用一句中文下达复合指令，Agent 能串联 ≥2 个工具完成</div>
+        </div>
+
+        <!-- D7 -->
+        <div class="day" data-day="D7">
+          <div class="d"><span class="dnum">DAY 7</span><span class="dtag">周日 · 6h</span><input type="checkbox" data-day="D7"></div>
+          <h4>项目1收尾 + 30min Python 过渡</h4>
+          <div class="learn">
+            <div class="lbl">📚 学什么（精确章节）</div>
+            <div class="srcs">
+              <a class="src" href="https://www.runoob.com/python3/python3-tutorial.html" target="_blank">菜鸟教程《Python 3 教程》· <span class="chap">前 5 章（变量/函数/模块/文件 / requests 等价 Node fetch）</span><span class="badge zh">中文</span></a>
+            </div>
+            <div class="dur">⏱ Python 速成 1h · 录制+复盘 4h</div>
+          </div>
+          <ol class="steps">
+            <li>录 1 分钟演示视频（终端跑项目1 + 解说）</li>
+            <li>写「踩坑记」：Node→Python 差异、tool schema 最容易错的字段</li>
+            <li>把项目1 push 到 GitHub（公开），写一条朋友圈承诺"30 天转型 AI Agent"</li>
+          </ol>
+          <div class="output"><b>✅ 产出：</b>GitHub 首个 commit 公开 + 演示视频 + 踩坑记 ｜ <b>验收：</b>链接可访问，视频能展示完整对话</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============ W2 ============ -->
+    <div class="panel" id="w2">
+      <div class="panel-goal" style="background:linear-gradient(135deg,#F5F3FF,#ECFEFF);border-color:#DDD6FE">
+        <div class="emoji">🧠</div>
+        <div><h3>W2 目标：用 LangChain/LangGraph 重写一切 + 做出项目2</h3><p>从 SDK 切到框架，理解 LCEL / State / Graph / Checkpoint 抽象（本周起切 Python）</p></div>
+      </div>
+      <div class="langbar">🐍 <b>本周起切 Python</b>。先 <code>pip install openai langchain langchain-openai langgraph chromadb</code>。DeepSeek 兼容 OpenAI 格式：<code>from openai import OpenAI; client=OpenAI(api_key=KEY, base_url="https://api.deepseek.com")</code>。</div>
+
+      <div class="days">
+        <!-- D8 -->
+        <div class="day" data-day="D8">
+          <div class="d"><span class="dnum">DAY 8</span><span class="dtag">周一 · 3h</span><input type="checkbox" data-day="D8"></div>
+          <h4>LangChain 核心抽象</h4>
+          <div class="learn">
+            <div class="lbl">📚 学什么（精确章节）</div>
+            <div class="srcs">
+              <a class="src" href="https://python.langchain.ac.cn/docs/tutorials/llm_chain/" target="_blank">LangChain 中文文档 · <span class="chap">教程「构建简单 LLM 应用」</span><span class="badge zh">中文</span><span class="badge py">Py</span></a>
+              <a class="src" href="https://datawhalechina.github.io/llm-cookbook/" target="_blank">Datawhale《LLM Cookbook》· <span class="chap">第3章「使用 LangChain 开发应用程序」（Models/Prompts/Parsers）</span><span class="badge zh">中文</span></a>
+            </div>
+            <div class="dur">⏱ 阅读 1h · 编码 2h</div>
+          </div>
+          <ol class="steps">
+            <li>用 <code>ChatModel + PromptTemplate + StrOutputParser</code> 重写 D1 的 chat</li>
+            <li>用 <b>LCEL</b> 管道符 <code>prompt | model | parser</code> 串成 chain</li>
+            <li>把 D2 的 function calling 用 <code>bind_tools</code> 重写一遍</li>
+          </ol>
+          <div class="output"><b>✅ 产出：</b><code>lc_chat.py</code>（LCEL 版）+ <code>lc_tools.py</code> ｜ <b>验收：</b>运行效果与 D1/D2 一致，但代码更短更清晰</div>
+        </div>
+
+        <!-- D9 -->
+        <div class="day" data-day="D9">
+          <div class="d"><span class="dnum">DAY 9</span><span class="dtag">周二 · 3h</span><input type="checkbox" data-day="D9"></div>
+          <h4>Tools & Memory</h4>
+          <div class="learn">
+            <div class="lbl">📚 学什么（精确章节）</div>
+            <div class="srcs">
+              <a class="src" href="https://python.langchain.ac.cn/docs/how_to/tool_calling/" target="_blank">LangChain 中文文档 · <span class="chap">「如何使用工具（@tool 装饰器）」</span><span class="badge zh">中文</span><span class="badge py">Py</span></a>
+              <a class="src" href="https://python.langchain.ac.cn/docs/tutorials/chatbot/" target="_blank">LangChain 中文文档 · <span class="chap">「聊天机器人（含 Memory 记忆）」</span><span class="badge zh">中文</span></a>
+            </div>
+            <div class="dur">⏱ 阅读 1h · 编码 2h</div>
+          </div>
+          <ol class="steps">
+            <li>用 <code>@tool</code> 装饰器把 D2 的两个函数重写成 LangChain Tool</li>
+            <li>引入 <code>ConversationBufferMemory</code> 保存历史</li>
+            <li>做一个"记得你上一句说了什么"的 chatbot</li>
+          </ol>
+          <div class="output"><b>✅ 产出：</b><code>chat_with_memory.py</code> ｜ <b>验收：</b>问"我刚才说的城市是？"模型能正确引用上下文</div>
+        </div>
+
+        <!-- D10 -->
+        <div class="day" data-day="D10">
+          <div class="d"><span class="dnum">DAY 10</span><span class="dtag">周三 · 3h</span><input type="checkbox" data-day="D10"></div>
+          <h4>RAG 入门</h4>
+          <div class="learn">
+            <div class="lbl">📚 学什么（精确章节）</div>
+            <div class="srcs">
+              <a class="src" href="https://python.langchain.ac.cn/docs/tutorials/rag/" target="_blank">LangChain 中文文档 · <span class="chap">教程「构建 RAG 应用」</span><span class="badge zh">中文</span><span class="badge py">Py</span></a>
+              <a class="src" href="https://datawhalechina.github.io/llm-cookbook/" target="_blank">Datawhale《LLM Cookbook》· <span class="chap">第4章「使用 LangChain 访问个人数据」（Loader/Splitter/VectorDB）</span><span class="badge zh">中文</span></a>
+            </div>
+            <div class="dur">⏱ 阅读 1h · 编码 2h</div>
+          </div>
+          <ol class="steps">
+            <li>用 <code>DocumentLoader</code> 读一份你本地的 PDF/Markdown</li>
+            <li><code>RecursiveCharacterTextSplitter</code> 切分（chunk_size≈500）</li>
+            <li>Embeddings（DeepSeek 不支持 embedding，用 <code>dashscope</code>/<code>OpenAI</code> 或本地 <code>bge</code>）+ <code>Chroma</code> 存向量</li>
+            <li>用 <code>RetrievalQA</code> 问答，确认回答带引用来源</li>
+          </ol>
+          <div class="output"><b>✅ 产出：</b><code>rag_demo.py</code> ｜ <b>验收：</b>问 PDF 内具体问题，回答正确且能指出来自第几段</div>
+        </div>
+
+        <!-- D11 -->
+        <div class="day" data-day="D11">
+          <div class="d"><span class="dnum">DAY 11</span><span class="dtag">周四 · 3h</span><input type="checkbox" data-day="D11"></div>
+          <h4>LangGraph 基础</h4>
+          <div class="learn">
+            <div class="lbl">📚 学什么（精确章节）</div>
+            <div class="srcs">
+              <a class="src" href="https://github.langchain.ac.cn/langgraph/agents/agents/" target="_blank">LangGraph 中文文档 · <span class="chap">「快速入门：构建 Agent（State/Node/Edge）」</span><span class="badge zh">中文</span><span class="badge py">Py</span></a>
+              <a class="src" href="https://github.langchain.ac.cn/langgraph/concepts/low_level/" target="_blank">LangGraph 中文文档 · <span class="chap">「核心概念：底层架构（组件/状态）」</span><span class="badge zh">中文</span><span class="badge py">Py</span></a>
+            </div>
+            <div class="dur">⏱ 阅读 1h · 编码 2h</div>
+          </div>
+          <ol class="steps">
+            <li>理解 State（共享数据）/ Node（函数）/ Edge（流转）三要素</li>
+            <li>用 LangGraph 把 D4 的 ReAct 循环重写成一张图</li>
+            <li>用 <code>graph.invoke()</code> 跑通，观察节点执行顺序</li>
+          </ol>
+          <div class="output"><b>✅ 产出：</b><code>langgraph_react.py</code> ｜ <b>验收：</b>行为同 D4，但结构变成可可视化的图</div>
+        </div>
+
+        <!-- D12 -->
+        <div class="day" data-day="D12">
+          <div class="d"><span class="dnum">DAY 12</span><span class="dtag">周五 · 3h</span><input type="checkbox" data-day="D12"></div>
+          <h4>LangGraph 进阶</h4>
+          <div class="learn">
+            <div class="lbl">📚 学什么（精确章节）</div>
+            <div class="srcs">
+              <a class="src" href="https://github.langchain.ac.cn/langgraph/concepts/human_in_the_loop/" target="_blank">LangGraph 中文文档 · <span class="chap">「人机协同 Human-in-the-loop」+「持久执行 / 记忆」</span><span class="badge zh">中文</span><span class="badge py">Py</span></a>
+            </div>
+            <div class="dur">⏱ 阅读 1h · 编码 2h</div>
+          </div>
+          <ol class="steps">
+            <li>加 <code>checkpointer</code> 让对话状态可持久化/恢复</li>
+            <li>用 <code>conditional_edge</code> 实现"危险操作前先问用户确认"</li>
+            <li>加 <code>stream_mode</code> 流式输出中间步骤</li>
+          </ol>
+          <div class="output"><b>✅ 产出：</b><code>lg_research_agent.py</code> ｜ <b>验收：</b>执行到写文件/删文件节点会暂停等你输入 y/n</div>
+        </div>
+
+        <!-- D13 -->
+        <div class="day" data-day="D13">
+          <div class="d"><span class="dnum">DAY 13</span><span class="dtag">周六 · 6h</span><input type="checkbox" data-day="D13"></div>
+          <h4>🚀 项目2：个人知识库 Agent</h4>
+          <div class="learn">
+            <div class="lbl">📚 学什么（精确章节）</div>
+            <div class="srcs">
+              <span class="src">综合 D10(RAG) + D11(LangGraph)<span class="badge py">Py</span></span>
+              <a class="src" href="https://python.langchain.ac.cn/docs/tutorials/rag/" target="_blank">LangChain 中文文档 · <span class="chap">RAG 教程进阶：多文档 / 重排</span><span class="badge zh">中文</span><span class="badge py">Py</span></a>
+            </div>
+            <div class="dur">⏱ 设计 1h · 编码 4h · README 1h</div>
+          </div>
+          <ol class="steps">
+            <li>选你电脑上一份真实资料（笔记/代码库/周报）</li>
+            <li>RAG 检索 + LangGraph 封装成多轮对话 Agent</li>
+            <li>回答必须带"引用来源"链接/段落号</li>
+            <li>写 README（场景 + 跑通命令 + 示例）</li>
+          </ol>
+          <div class="output"><b>✅ 产出：</b><code>kb-agent/</code> 仓库 ｜ <b>验收：</b>问"我上周三在笔记里写了什么"，能准确召回并标注出处</div>
+        </div>
+
+        <!-- D14 -->
+        <div class="day" data-day="D14">
+          <div class="d"><span class="dnum">DAY 14</span><span class="dtag">周日 · 6h</span><input type="checkbox" data-day="D14"></div>
+          <h4>项目2 demo + LangSmith 接入</h4>
+          <div class="learn">
+            <div class="lbl">📚 学什么（精确章节）</div>
+            <div class="srcs">
+              <a class="src" href="https://langsmith.langchain.ac.cn/tutorials/Developers/evaluation" target="_blank">LangSmith 中文文档 · <span class="chap">「快速上手 LangSmith Essentials（追踪 / 评估）」</span><span class="badge zh">中文</span></a>
+            </div>
+            <div class="dur">⏱ 看课 1h · 接入 2h · 博客 3h</div>
+          </div>
+          <ol class="steps">
+            <li>注册 LangSmith，设 <code>LANGCHAIN_TRACING_V2=true</code> 环境变量</li>
+            <li>重跑 kb-agent，在 LangSmith 平台看完整 trace（每次 LLM 调用、token、耗时）</li>
+            <li>写一篇技术博客初稿：你怎么做 RAG + 踩的坑</li>
+          </ol>
+          <div class="output"><b>✅ 产出：</b>博客草稿 1 篇 + trace 截图 ｜ <b>验收：</b>LangSmith 里能看到 kb-agent 的运行链路</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ W3 ============ -->
+    <div class="panel" id="w3">
+      <div class="panel-goal" style="background:linear-gradient(135deg,#ECFEFF,#F0FDF4);border-color:#A7F3D0">
+        <div class="emoji">🤝</div>
+        <div><h3>W3 目标：Multi-Agent 协作 + 评估思维 + Harness 铺垫</h3><p>横向对比 AutoGen / CrewAI / LangGraph Supervisor，做完项目3</p></div>
+      </div>
+
+      <div class="days">
+        <!-- D15 -->
+        <div class="day" data-day="D15">
+          <div class="d"><span class="dnum">DAY 15</span><span class="dtag">周一 · 3h</span><input type="checkbox" data-day="D15"></div>
+          <h4>Multi-Agent 范式对比</h4>
+          <div class="learn">
+            <div class="lbl">📚 学什么（精确章节）</div>
+            <div class="srcs">
+              <a class="src" href="https://juejin.cn/post/7635681418753556520" target="_blank">CrewAI 多智能体实战（掘金·中文）· <span class="chap">「角色/任务/团队模型」</span><span class="badge zh">中文</span></a>
+              <a class="src" href="https://blog.csdn.net/puhaiyang/article/details/145284677" target="_blank">AutoGen 入门（CSDN·中文）· <span class="chap">「多角色/多智能体对话系统」</span><span class="badge zh">中文</span></a>
+              <a class="src" href="https://github.langchain.ac.cn/langgraph/" target="_blank">LangGraph 中文文档 · <span class="chap">「多智能体编排（Supervisor 模式）」</span><span class="badge zh">中文</span><span class="badge py">Py</span></a>
+            </div>
+            <div class="dur">⏱ 阅读 2h · 笔记 1h</div>
+          </div>
+          <ol class="steps">
+            <li>各读 20 分钟 Quickstart，理解三种"如何分工/通信"</li>
+            <li>画对比表：角色定义方式 / 通信机制 / 适用场景 / 学习成本</li>
+            <li>判断：你的项目3 用哪个框架最合适（建议 LangGraph 或 CrewAI）</li>
+          </ol>
+          <div class="output"><b>✅ 产出：</b><code>framework_compare.md</code> ｜ <b>验收：</b>表格含 ≥3 维度对比 + 你的选型结论</div>
+        </div>
+
+        <!-- D16 -->
+        <div class="day" data-day="D16">
+          <div class="d"><span class="dnum">DAY 16</span><span class="dtag">周二 · 3h</span><input type="checkbox" data-day="D16"></div>
+          <h4>CrewAI 实战</h4>
+          <div class="learn">
+            <div class="lbl">📚 学什么（精确章节）</div>
+            <div class="srcs">
+              <a class="src" href="https://juejin.cn/post/7635681418753556520" target="_blank">CrewAI 多智能体实战（掘金·中文）· <span class="chap">「Agent / Task / Crew / kickoff 全流程」</span><span class="badge zh">中文</span></a>
+            </div>
+            <div class="dur">⏱ 看课 1h · 编码 2h</div>
+          </div>
+          <ol class="steps">
+            <li><code>pip install crewai</code></li>
+            <li>定义 <code>Researcher</code>（检索）+ <code>Writer</code>（写作）两个 Agent，配 role/goal/backstory</li>
+            <li>给一个 Task，<code>Crew(...).kickoff()</code> 拿到协作结果</li>
+          </ol>
+          <div class="output"><b>✅ 产出：</b><code>crewai_demo.py</code> ｜ <b>验收：</b>输入一个话题，两个 Agent 接力产出一篇结构化短文</div>
+        </div>
+
+        <!-- D17 -->
+        <div class="day" data-day="D17">
+          <div class="d"><span class="dnum">DAY 17</span><span class="dtag">周三 · 3h</span><input type="checkbox" data-day="D17"></div>
+          <h4>AutoGen 实战</h4>
+          <div class="learn">
+            <div class="lbl">📚 学什么（精确章节）</div>
+            <div class="srcs">
+              <a class="src" href="https://blog.csdn.net/puhaiyang/article/details/145284677" target="_blank">AutoGen 入门（CSDN·中文）· <span class="chap">「AssistantAgent + UserProxyAgent 实战」</span><span class="badge zh">中文</span></a>
+            </div>
+            <div class="dur">⏱ 看文档 1h · 编码 2h</div>
+          </div>
+          <ol class="steps">
+            <li><code>pip install pyautogen</code>（或 <code>autogen-agentchat</code>）</li>
+            <li>建 <code>UserProxyAgent</code>（代表你，可执行代码）+ <code>AssistantAgent</code></li>
+            <li>发起对话，让 Assistant 写代码、UserProxy 在本地执行并返回结果</li>
+          </ol>
+          <div class="output"><b>✅ 产出：</b><code>autogen_demo.py</code> ｜ <b>验收：</b>让 Agent"算斐波那契前10项"，它在本地跑代码并返回结果</div>
+        </div>
+
+        <!-- D18 -->
+        <div class="day" data-day="D18">
+          <div class="d"><span class="dnum">DAY 18</span><span class="dtag">周四 · 3h</span><input type="checkbox" data-day="D18"></div>
+          <h4>Agent 评估</h4>
+          <div class="learn">
+            <div class="lbl">📚 学什么（精确章节）</div>
+            <div class="srcs">
+              <a class="src" href="https://langsmith.langchain.ac.cn/tutorials/Developers/evaluation" target="_blank">LangSmith 中文文档 · <span class="chap">「评估（自定义评分函数 Evaluators）」</span><span class="badge zh">中文</span></a>
+              <a class="src" href="https://datawhalechina.github.io/hello-agents/" target="_blank">Hello-Agents（中文）· <span class="chap">高级章节「Deep Agent / 评估迭代」</span><span class="badge zh">中文</span></a>
+            </div>
+            <div class="dur">⏱ 阅读 1h · 编码 2h</div>
+          </div>
+          <ol class="steps">
+            <li>给 kb-agent 准备 5 个标准问答对（含预期答案）</li>
+            <li>写 evaluator：事实命中率 + 是否给出引用</li>
+            <li>批量跑，输出 JSON 评估报告</li>
+          </ol>
+          <div class="output"><b>✅ 产出：</b><code>eval_report.json</code> ｜ <b>验收：</b>报告含每个用例的 pass/fail 与总分</div>
+        </div>
+
+        <!-- D19 -->
+        <div class="day" data-day="D19">
+          <div class="d"><span class="dnum">DAY 19</span><span class="dtag">周五 · 3h</span><input type="checkbox" data-day="D19"></div>
+          <h4>Bad Case 分析</h4>
+          <div class="learn">
+            <div class="lbl">📚 学什么（精确章节）</div>
+            <div class="srcs">
+              <span class="src">复用 D18 的评估框架，重点看失败样本<span class="badge py">Py</span></span>
+            </div>
+            <div class="dur">⏱ 实验 2h · 修复 1h</div>
+          </div>
+          <ol class="steps">
+            <li>把 D18 失败 case 扩到 10 个，逐一归类（幻觉 / 工具失败 / 上下文丢失）</li>
+            <li>对每个类别想 1 个修复手段（如加大 chunk / 加 few-shot / 改 prompt）</li>
+            <li>修 2-3 个最典型的，重跑评估看分数提升</li>
+          </ol>
+          <div class="output"><b>✅ 产出：</b><code>badcase_log.md</code> + 修复 commit ｜ <b>验收：</b>评估总分比 D18 提升 ≥10%</div>
+        </div>
+
+        <!-- D20 -->
+        <div class="day" data-day="D20">
+          <div class="d"><span class="dnum">DAY 20</span><span class="dtag">周六 · 6h</span><input type="checkbox" data-day="D20"></div>
+          <h4>🚀 项目3：研究报告 Multi-Agent</h4>
+          <div class="learn">
+            <div class="lbl">📚 学什么（精确章节）</div>
+            <div class="srcs">
+              <a class="src" href="https://juejin.cn/post/7635681418753556520" target="_blank">CrewAI 多智能体实战（掘金·中文）· <span class="chap">「实战案例：从需求到上线的 Agent 团队」</span><span class="badge zh">中文</span></a>
+              <a class="src" href="https://github.langchain.ac.cn/langgraph/" target="_blank">LangGraph 中文文档 · <span class="chap">「多 Agent 编排（Supervisor）」</span><span class="badge zh">中文</span><span class="badge py">Py</span></a>
+            </div>
+            <div class="dur">⏱ 设计 1h · 编码 4h · README 1h</div>
+          </div>
+          <ol class="steps">
+            <li>设计 3 角色：Researcher（检索）+ Writer（起草）+ Reviewer（打分）</li>
+            <li>用 CrewAI 或 LangGraph 编排它们的协作流程</li>
+            <li>输入一个题目（如"AI Agent 框架 2026 对比"），自动产出带引用的报告</li>
+          </ol>
+          <div class="output"><b>✅ 产出：</b><code>research-agent/</code> 仓库 ｜ <b>验收：</b>输入题目后无需手动干预，自动产出 ≥800 字报告</div>
+        </div>
+
+        <!-- D21 -->
+        <div class="day" data-day="D21">
+          <div class="d"><span class="dnum">DAY 21</span><span class="dtag">周日 · 6h</span><input type="checkbox" data-day="D21"></div>
+          <h4>项目3收尾 + Harness 概念铺垫</h4>
+          <div class="learn">
+            <div class="lbl">📚 学什么（精确章节）</div>
+            <div class="srcs">
+              <a class="src" href="https://datawhalechina.github.io/hello-agents/" target="_blank">Hello-Agents（中文）· <span class="chap">高级章节「Agent Harness / 工具与环境架构」</span><span class="badge zh">中文</span></a>
+              <a class="src" href="https://github.com/deepseek-ai/deepseek-harness" target="_blank">deepseek-harness 源码 · <span class="chap">README + tools/agents/prompt（英文，配中文讲解食用）</span><span class="badge en">英</span><span class="badge py">Py</span></a>
+            </div>
+            <div class="dur">⏱ 读 harness 2h · 笔记 2h</div>
+          </div>
+          <ol class="steps">
+            <li>读 DeepSeek Harness 的模块划分（tools / agents / prompt）</li>
+            <li>用自己话写"Harness = 什么，和单 Agent 框架差在哪"</li>
+            <li>列出你下周的 mini-harness 要实现的 4 个核心模块</li>
+          </ol>
+          <div class="output"><b>✅ 产出：</b><code>harness_notes.md</code> ｜ <b>验收：</b>能向别人说清"调度/工具/上下文/重试"四件事</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ W4 ============ -->
+    <div class="panel" id="w4">
+      <div class="panel-goal" style="background:linear-gradient(135deg,#FFF7ED,#FEF3C7);border-color:#FED7AA">
+        <div class="emoji">🛠️</div>
+        <div><h3>W4 目标：从"用 Agent"到"造 Harness"，作品集收口</h3><p>实现项目4（Coding Agent），写简历，30 天闭环</p></div>
+      </div>
+
+      <div class="days">
+        <!-- D22 -->
+        <div class="day" data-day="D22">
+          <div class="d"><span class="dnum">DAY 22</span><span class="dtag">周一 · 3h</span><input type="checkbox" data-day="D22"></div>
+          <h4>deepseek-harness 源码通读</h4>
+          <div class="learn">
+            <div class="lbl">📚 学什么（精确章节）</div>
+            <div class="srcs">
+              <a class="src" href="https://github.com/deepseek-ai/deepseek-harness" target="_blank">deepseek-harness 源码 · <span class="chap">README + tools/agents/prompt（英文，配下方中文讲解）</span><span class="badge en">英</span><span class="badge py">Py</span></a>
+              <a class="src" href="https://datawhalechina.github.io/hello-agents/" target="_blank">Hello-Agents（中文）· <span class="chap">高级章节「Agent 调度 / 工具 / 上下文架构」</span><span class="badge zh">中文</span></a>
+            </div>
+            <div class="dur">⏱ 读源码 2.5h · 画图 0.5h</div>
+          </div>
+          <ol class="steps">
+            <li><code>git clone</code> 仓库，先读 README 整体架构</li>
+            <li>精读执行引擎：任务如何被拆、工具如何注册、结果如何回流</li>
+            <li>用 Mermaid 画一张模块调用关系图</li>
+          </ol>
+          <div class="output"><b>✅ 产出：</b><code>harness_arch.md</code> + 架构图 ｜ <b>验收：</b>能讲清"一次任务从进入到产出"经过哪些模块</div>
+        </div>
+
+        <!-- D23 -->
+        <div class="day" data-day="D23">
+          <div class="d"><span class="dnum">DAY 23</span><span class="dtag">周二 · 3h</span><input type="checkbox" data-day="D23"></div>
+          <h4>设计最小 Harness</h4>
+          <div class="learn">
+            <div class="lbl">📚 学什么（精确章节）</div>
+            <div class="srcs">
+              <span class="src">基于 D21 的 harness_notes + D22 架构图动手实现<span class="badge py">Py</span></span>
+            </div>
+            <div class="dur">⏱ 设计 1h · 编码 2h</div>
+          </div>
+          <ol class="steps">
+            <li>抽象 4 模块：<code>scheduler</code>(调度) / <code>tool_registry</code>(工具) / <code>context_manager</code>(上下文) / <code>error_handler</code>(重试)</li>
+            <li>先写接口和骨架（每个模块一个类 + 空方法）</li>
+            <li>接 DeepSeek，跑通"输入一句指令→调度→调一个工具→返回"的最小闭环</li>
+          </ol>
+          <div class="output"><b>✅ 产出：</b><code>mini-harness/</code>（300-500 行核心）｜ <b>验收：</b>输入任务能走完整调度流程并拿到结果</div>
+        </div>
+
+        <!-- D24 -->
+        <div class="day" data-day="D24">
+          <div class="d"><span class="dnum">DAY 24</span><span class="dtag">周三 · 3h</span><input type="checkbox" data-day="D24"></div>
+          <h4>Plan-and-Execute 模式</h4>
+          <div class="learn">
+            <div class="lbl">📚 学什么（精确章节）</div>
+            <div class="srcs">
+              <a class="src" href="https://github.langchain.ac.cn/langgraph/" target="_blank">LangGraph 中文文档 · <span class="chap">教程「Plan-and-Execute（规划-执行）」</span><span class="badge zh">中文</span><span class="badge py">Py</span></a>
+            </div>
+            <div class="dur">⏱ 阅读 1h · 编码 2h</div>
+          </div>
+          <ol class="steps">
+            <li>理解 Planner(拆步骤) → Executor(逐步执行) → Replanner(修正) 三段</li>
+            <li>在 mini-harness 里加 Planner 节点：复杂任务先产出步骤列表</li>
+            <li>Executor 每步调用工具，Replanner 根据结果决定是否调整计划</li>
+          </ol>
+          <div class="output"><b>✅ 产出：</b><code>plan_execute.py</code> ｜ <b>验收：</b>给"整理桌面并按类型归档"类任务，能看到分步执行与中途修正</div>
+        </div>
+
+        <!-- D25 -->
+        <div class="day" data-day="D25">
+          <div class="d"><span class="dnum">DAY 25</span><span class="dtag">周四 · 3h</span><input type="checkbox" data-day="D25"></div>
+          <h4>上下文压缩 & 成本控制</h4>
+          <div class="learn">
+            <div class="lbl">📚 学什么（精确章节）</div>
+            <div class="srcs">
+              <a class="src" href="https://python.langchain.ac.cn/docs/how_to/long_term_memory/" target="_blank">LangChain 中文文档 · <span class="chap">「长期记忆 / 上下文压缩」</span><span class="badge zh">中文</span><span class="badge py">Py</span></a>
+            </div>
+            <div class="dur">⏱ 阅读 1h · 编码 2h</div>
+          </div>
+          <ol class="steps">
+            <li>在 context_manager 实现 sliding window（只保留最近 N 轮）</li>
+            <li>长对话超过阈值时，用 LLM 把历史压缩成摘要</li>
+            <li>加 token 计数器 + 成本估算（按 DeepSeek 单价）</li>
+          </ol>
+          <div class="output"><b>✅ 产出：</b><code>cost_dashboard.py</code> ｜ <b>验收：</b>跑一个 20 轮长任务，内存/成本曲线平稳，不爆上下文</div>
+        </div>
+
+        <!-- D26 -->
+        <div class="day" data-day="D26">
+          <div class="d"><span class="dnum">DAY 26</span><span class="dtag">周五 · 3h</span><input type="checkbox" data-day="D26"></div>
+          <h4>🚀 项目4（重头戏）：Coding Agent</h4>
+          <div class="learn">
+            <div class="lbl">📚 学什么（精确章节）</div>
+            <div class="srcs">
+              <span class="src">综合 D23(mini-harness) + D24(plan-execute) + D25(上下文)<span class="badge py">Py</span></span>
+              <a class="src" href="https://github.com/deepseek-ai/deepseek-harness" target="_blank">deepseek-harness 源码 · <span class="chap">参考工具/沙箱实现（英文，配中文讲解）</span><span class="badge en">英</span><span class="badge py">Py</span></a>
+              <a class="src" href="https://datawhalechina.github.io/hello-agents/" target="_blank">Hello-Agents（中文）· <span class="chap">参考「工具调用 / 沙箱」章节</span><span class="badge zh">中文</span></a>
+            </div>
+            <div class="dur">⏱ 设计 1h · 编码 2h（MVP）</div>
+          </div>
+          <ol class="steps">
+            <li>给 mini-harness 加 3 个工具：<code>read_file</code> / <code>edit_file</code> / <code>run_tests</code></li>
+            <li>用 subprocess 或 docker 做"沙箱"隔离执行</li>
+            <li>输入"给某函数加单元测试并跑通"，Agent 自动读→改→测</li>
+          </ol>
+          <div class="output"><b>✅ 产出：</b><code>coding-agent/</code> MVP ｜ <b>验收：</b>对一个真实小仓库，Agent 能自主完成一次"加测试并跑绿"</div>
+        </div>
+
+        <!-- D27 -->
+        <div class="day" data-day="D27">
+          <div class="d"><span class="dnum">DAY 27</span><span class="dtag">周六 · 6h</span><input type="checkbox" data-day="D27"></div>
+          <h4>项目4完善 + 4项目收口</h4>
+          <div class="learn">
+            <div class="lbl">📚 学什么（精确章节）</div>
+            <div class="srcs">
+              <span class="src">各项目补测试 / README / demo 视频<span class="badge py">Py</span></span>
+            </div>
+            <div class="dur">⏱ 编码 3h · 文档/视频 3h</div>
+          </div>
+          <ol class="steps">
+            <li>给 coding-agent 加 pytest + CI（GitHub Actions）</li>
+            <li>4 个项目都补双语 README + 截图/trace</li>
+            <li>录 5 分钟"项目合集"演示视频</li>
+          </ol>
+          <div class="output"><b>✅ 产出：</b>4 个项目全部就绪（含 CI 绿标）｜ <b>验收：</b>每个仓库 README 都能让陌生人照着跑通</div>
+        </div>
+
+        <!-- D28 -->
+        <div class="day" data-day="D28">
+          <div class="d"><span class="dnum">DAY 28</span><span class="dtag">周日 · 6h</span><input type="checkbox" data-day="D28"></div>
+          <h4>简历包装</h4>
+          <div class="learn">
+            <div class="lbl">📚 学什么（精确章节）</div>
+            <div class="srcs">
+              <span class="src">参考「前端→AI」转型简历模板（自行搜索 2 篇）<span class="badge zh">中文</span></span>
+            </div>
+            <div class="dur">⏱ 写简历 3h · GitHub 装修 3h</div>
+          </div>
+          <ol class="steps">
+            <li>写 GitHub profile README：4 项目 + 技术栈 + 转型故事</li>
+            <li>给每个项目 star 自己 + 加 topic（agent / rag / langgraph）</li>
+            <li>写 1 页 RESUME.md：突出"前端工程力 + 4 个 Agent 作品"</li>
+          </ol>
+          <div class="output"><b>✅ 产出：</b><code>RESUME.md</code> + 装修好的 GitHub ｜ <b>验收：</b>HR 看 10 秒能看懂你做了什么</div>
+        </div>
+
+        <!-- D29 -->
+        <div class="day" data-day="D29">
+          <div class="d"><span class="dnum">DAY 29</span><span class="dtag">周末补 · 3h</span><input type="checkbox" data-day="D29"></div>
+          <h4>面试八股 + Mock</h4>
+          <div class="learn">
+            <div class="lbl">📚 学什么（精确章节）</div>
+            <div class="srcs">
+              <span class="src">自整理：ReAct/CoT 原理、Function Calling 协议、LangGraph vs AutoGen<span class="badge zh">中文</span></span>
+            </div>
+            <div class="dur">⏱ 整理 2h · 模拟 1h</div>
+          </div>
+          <ol class="steps">
+            <li>写「Agent 基础 10 题」+「框架对比」问答</li>
+            <li>用自己项目讲一遍"为什么这样做"（STAR 法）</li>
+            <li>约 1 位朋友/同事做 30 分钟 mock 面试</li>
+          </ol>
+          <div class="output"><b>✅ 产出：</b><code>interview_qa.md</code> ｜ <b>验收：</b>能不卡壳讲清任一项目的架构与取舍</div>
+        </div>
+
+        <!-- D30 -->
+        <div class="day" data-day="D30">
+          <div class="d"><span class="dnum">DAY 30</span><span class="dtag">周末补 · 3h</span><input type="checkbox" data-day="D30"></div>
+          <h4>投递 + Demo Day</h4>
+          <div class="learn">
+            <div class="lbl">📚 学什么（精确章节）</div>
+            <div class="srcs">
+              <span class="src">在 BOSS/猎聘/公司官网找目标岗位<span class="badge zh">中文</span></span>
+            </div>
+            <div class="dur">⏱ 投递 1h · 总结 2h</div>
+          </div>
+          <ol class="steps">
+            <li>找 ≥3 个匹配岗位（AI Agent / Agent Harness 方向）投递</li>
+            <li>发一篇"我的 AI Agent 转型总结"长文（配 5 分钟视频）</li>
+            <li>把 30 天打卡页截图，作为自己坚持的证明发出去</li>
+          </ol>
+          <div class="output"><b>✅ 产出：</b>第一批简历已发 + 转型总结文 ｜ <b>验收：</b>收到 ≥1 个面试邀约或积极回复</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 资料评估 ============ -->
+  <section>
+    <h2 class="sec-title"><span class="dot"></span>一、现有资料评估</h2>
+    <div class="grid2" style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+      <div class="day" style="cursor:default">
+        <h4 style="margin-top:4px">Hello-Agents（基础）</h4>
+        <p style="font-size:12.5px;color:var(--muted);line-height:1.6;margin:0">✅ 中文友好、基础扎实<br>⚠️ 对 LangChain/LangGraph 生产级 API 覆盖不足；RAG 工程化偏浅</p>
+      </div>
+      <div class="day" style="cursor:default">
+        <h4 style="margin-top:4px">deepseek-harness（进阶）</h4>
+        <p style="font-size:12.5px;color:var(--muted);line-height:1.6;margin:0">✅ 业界前沿 Harness 真代码<br>⚠️ 默认你已懂基础；Python 为主，对前端略重</p>
+      </div>
+    </div>
+    <div class="langbar" style="margin-top:14px">📊 <b>综合 70/100</b>：作为"基础+进阶"拼装够用，但还差约 30%——需补 LangChain/LangGraph、ReAct 论文、RAG 工程、AutoGen/CrewAI 对比。上面每日计划已把这些补进去了。</div>
+  </section>
+
+  <!-- ============ 补充材料 ============ -->
+  <section>
+    <h2 class="sec-title"><span class="dot"></span>二、补充的学习材料（已嵌入每日计划）</h2>
+    <div class="grid2" style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+      <div class="day" style="cursor:default">
+        <span class="src" style="display:inline-block;margin-bottom:8px">🔴 P0 · 必学<span class="badge zh">中文</span></span>
+        <p style="font-size:12.5px;color:var(--ink);line-height:1.7;margin:0">
+          • DeepSeek API 文档（中文）<br>• LangChain 中文文档（python.langchain.ac.cn）<br>• LangGraph 中文文档（github.langchain.ac.cn）<br>• Datawhale《LLM Cookbook》中文课（吴恩达体系全中文译本）<br>• ReAct 中文详解 + Lilian Weng 综述中文翻译<br>• LangChain RAG 中文教程
+        </p>
+      </div>
+      <div class="day" style="cursor:default">
+        <span class="src" style="display:inline-block;margin-bottom:8px">🟡 P1 · 强烈推荐<span class="badge zh">中文</span></span>
+        <p style="font-size:12.5px;color:var(--ink);line-height:1.7;margin:0">
+          • CrewAI 中文实战（掘金）/ AutoGen 中文教程（CSDN）<br>• LangSmith 中文文档（评估 / 追踪）<br>• Hello-Agents（deepseek-harness 中文配套讲解）<br>• LangGraph 中文「多智能体 / Plan-and-Execute」
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 项目 ============ -->
+  <section>
+    <h2 class="sec-title"><span class="dot"></span>三、4 个核心项目（作品集 = 简历）</h2>
+    <div class="timeline">
+      <div class="pj" data-n="1"><h4>命令行程 Agent（D6）</h4><p class="desc">自然语言 → 多工具自动调用的最小 Agent（Node.js）。</p><span class="stack">Function Calling</span><span class="stack">ReAct</span></div>
+      <div class="pj" data-n="2"><h4>个人知识库 Agent（D13）</h4><p class="desc">读你电脑真实资料，能检索+回答+引用。</p><span class="stack">LangChain</span><span class="stack">RAG</span><span class="stack">Chroma</span></div>
+      <div class="pj" data-n="3"><h4>研究报告 Multi-Agent（D20）</h4><p class="desc">Researcher+Writer+Reviewer 协作产出报告。</p><span class="stack">LangGraph/CrewAI</span><span class="stack">Multi-Agent</span></div>
+      <div class="pj" data-n="4"><h4>端到端 Coding Agent ⭐（D26）</h4><p class="desc">自研 mini-harness + 沙箱，读仓库→改代码→跑测试，Claude Code 雏形。</p><span class="stack">Agent Harness</span><span class="stack">Plan-and-Execute</span><span class="stack">沙箱</span></div>
+    </div>
+    <div class="legend">
+      <span><span class="swatch" style="background:linear-gradient(135deg,#6366F1,#8B5CF6)"></span>覆盖 JD1 全部 4 大模块 + JD2 核心范式</span>
+      <span><span class="swatch" style="background:#10B981"></span>每个项目用 GitHub Actions 跑 CI，README 双语</span>
+    </div>
+  </section>
+
+  <!-- ============ 激励 ============ -->
+  <section>
+    <h2 class="sec-title"><span class="dot"></span>五、激励机制（防放弃）</h2>
+    <div class="mot">
+      <div class="mcard"><h5>🪜 每日 checkpoint</h5><ul><li>每天结束必须有 1 个 commit 或 1 篇笔记，否则补完再睡</li><li>本页勾选即"打卡"，状态存浏览器</li></ul></div>
+      <div class="mcard"><h5>📣 公开承诺</h5><ul><li>D1 发朋友圈/小红书"30 天转型 AI Agent 开发"</li><li>社群监督比自我监督有效 3 倍</li></ul></div>
+      <div class="mcard"><h5>🪞 W/W 复盘</h5><ul><li>每周日 30 分钟回顾"交付了什么 + 下周重点"</li><li>失败 commit 比成功 commit 更值钱</li></ul></div>
+      <div class="mcard"><h5>🎬 Demo Day</h5><ul><li>D30 发"转型总结"长文 + 5 分钟项目合集视频</li><li>让交付物变成你的个人 IP</li></ul></div>
+    </div>
+  </section>
+
+  <!-- ============ 风险 ============ -->
+  <section>
+    <h2 class="sec-title"><span class="dot"></span>六、风险控制</h2>
+    <div class="risk">
+      <h5>⚠️ 提前预设的"放弃路径"</h5>
+      <ul>
+        <li><b>学不下去的信号：</b>连续 3 天无法 commit → 当天任务换成"抄 1 个开源项目 100 行"代替，先动起来。</li>
+        <li><b>不卡住的窍门：</b>60% 看官方文档 + 30% 抄代码 + 10% 自由发挥；优先复用<b>官方 examples</b>。</li>
+        <li><b>API 钱：</b>DeepSeek 国内注册即送额度，先用它跑所有 demo；OpenAI 用 gpt-4o-mini（≈¥0.07/M token）。</li>
+        <li><b>前端转岗加成：</b>别只做"调接口"玩具，做能 demo 的<b>工具型 Agent</b>（IDE 插件/浏览器插件/内部 SaaS），面试讲"前端+Agent"故事差异化更稳。</li>
+        <li><b>备份计划：</b>任一周落下 ≥2 天，启动"压缩版"——跳过 RAG 加深，只保项目 3+4。</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    <div class="badge2">⚡ by WorkBuddy</div>
+    <div style="margin-top:8px">保持每天勾选，让 30 天后回看这页成为你简历的第一行。</div>
+  </footer>
+
+</div>
+
+<script>
+  const tabs=document.querySelectorAll('.tab'),panels=document.querySelectorAll('.panel');
+  tabs.forEach(t=>t.addEventListener('click',()=>{tabs.forEach(x=>x.classList.remove('active'));panels.forEach(x=>x.classList.remove('active'));t.classList.add('active');document.getElementById(t.dataset.target).classList.add('active');}));
+  const KEY='ai-agent-30day-v2',fill=document.getElementById('fill'),count=document.getElementById('count');
+  let state=JSON.parse(localStorage.getItem(KEY)||'{}');
+  function update(){const c=document.querySelectorAll('.day input[type=checkbox]');let d=0;c.forEach(x=>{if(state[x.dataset.day]){x.checked=true;x.closest('.day').classList.add('checked');d++}else{x.checked=false;x.closest('.day').classList.remove('checked')}});const t=c.length;count.textContent=`${d} / ${t}`;fill.style.width=`${(d/t)*100}%`}
+  document.querySelectorAll('.day input[type=checkbox]').forEach(c=>c.addEventListener('change',e=>{state[c.dataset.day]=e.target.checked;localStorage.setItem(KEY,JSON.stringify(state));update();}));
+  window.resetAll=function(){if(confirm('确定清除所有打卡记录？')){localStorage.removeItem(KEY);state={};update()}};
+  update();
+</script>
+</body>
+</html>

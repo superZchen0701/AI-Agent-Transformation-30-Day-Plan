@@ -1,0 +1,1498 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Agent 开发转型 30 天学习计划</title>
+<style>
+  :root {
+    --primary: #1a56db;
+    --primary-light: #e8f0fe;
+    --accent: #e8720c;
+    --text: #1f2937;
+    --text-light: #6b7280;
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --border: #e5e7eb;
+    --code-bg: #f1f5f9;
+    --success: #059669;
+    --week1: #0ea5e9;
+    --week2: #8b5cf6;
+    --week3: #f59e0b;
+    --week4: #ef4444;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.7;
+    font-size: 15px;
+  }
+  /* 布局 */
+  .layout { display: flex; min-height: 100vh; }
+  /* 侧边栏 */
+  .sidebar {
+    width: 280px;
+    background: var(--card);
+    border-right: 1px solid var(--border);
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    overflow-y: auto;
+    padding: 24px 0;
+    z-index: 100;
+  }
+  .sidebar-title {
+    padding: 0 20px 16px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 8px;
+  }
+  .sidebar a {
+    display: block;
+    padding: 8px 20px;
+    color: var(--text);
+    text-decoration: none;
+    font-size: 13.5px;
+    border-left: 3px solid transparent;
+    transition: all 0.2s;
+  }
+  .sidebar a:hover { background: var(--primary-light); color: var(--primary); }
+  .sidebar a.active { border-left-color: var(--primary); background: var(--primary-light); color: var(--primary); font-weight: 600; }
+  .sidebar .nav-h2 { padding-left: 32px; font-size: 13px; color: var(--text-light); }
+  .sidebar .nav-week { margin-top: 12px; padding: 4px 20px; font-size: 12px; font-weight: 700; color: var(--text-light); text-transform: uppercase; }
+  /* 主内容 */
+  .main {
+    margin-left: 280px;
+    flex: 1;
+    padding: 40px 48px 80px;
+    max-width: 960px;
+  }
+  /* 封面 */
+  .cover {
+    text-align: center;
+    padding: 80px 20px 60px;
+    border-bottom: 2px solid var(--border);
+    margin-bottom: 48px;
+  }
+  .cover h1 {
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 16px;
+    letter-spacing: -0.5px;
+  }
+  .cover .subtitle {
+    font-size: 18px;
+    color: var(--text-light);
+    margin-bottom: 32px;
+  }
+  .cover .meta {
+    display: inline-flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .cover .meta-item {
+    background: var(--primary-light);
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    color: var(--primary);
+    font-weight: 500;
+  }
+  /* 章节 */
+  h2.section-title {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--text);
+    margin: 56px 0 24px;
+    padding-bottom: 12px;
+    border-bottom: 3px solid var(--primary);
+    display: inline-block;
+  }
+  h3 {
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--text);
+    margin: 32px 0 14px;
+  }
+  h4 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+    margin: 24px 0 10px;
+  }
+  p { margin-bottom: 12px; }
+  /* 卡片 */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .card-highlight {
+    border-left: 4px solid var(--accent);
+    background: #fffbeb;
+  }
+  .card-primary {
+    border-left: 4px solid var(--primary);
+    background: var(--primary-light);
+  }
+  /* 表格 */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 24px;
+    font-size: 14px;
+    background: var(--card);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  th {
+    background: #f1f5f9;
+    padding: 12px 14px;
+    text-align: left;
+    font-weight: 700;
+    color: var(--text);
+    border-bottom: 2px solid var(--border);
+    font-size: 13.5px;
+  }
+  td {
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) td { background: #fafbfc; }
+  /* 每日计划卡片 */
+  .day-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .day-header {
+    padding: 16px 24px;
+    color: white;
+    font-weight: 700;
+    font-size: 17px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .day-header .day-num {
+    background: rgba(255,255,255,0.25);
+    padding: 2px 10px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .day-body { padding: 20px 24px; }
+  .day-section { margin-bottom: 16px; }
+  .day-section:last-child { margin-bottom: 0; }
+  .day-label {
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--primary);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .day-label.check { color: var(--success); }
+  .day-label.output { color: var(--accent); }
+  /* 列表 */
+  ul, ol { margin: 8px 0 14px 24px; }
+  li { margin-bottom: 6px; }
+  /* 标签 */
+  .tag {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-right: 6px;
+  }
+  .tag-p0 { background: #fee2e2; color: #dc2626; }
+  .tag-p1 { background: #fef3c7; color: #d97706; }
+  .tag-p2 { background: #dbeafe; color: #2563eb; }
+  .tag-p3 { background: #f3f4f6; color: #6b7280; }
+  /* 周总览 */
+  .week-overview {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin: 24px 0;
+  }
+  .week-card {
+    border-radius: 12px;
+    padding: 20px;
+    color: white;
+    min-height: 160px;
+  }
+  .week-card h4 { color: white; margin: 0 0 8px; font-size: 15px; }
+  .week-card p { font-size: 13px; opacity: 0.9; margin: 0; }
+  .week-card .week-num { font-size: 12px; opacity: 0.8; font-weight: 600; }
+  /* 项目卡片 */
+  .project-card {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 20px;
+    background: var(--card);
+  }
+  .project-card h3 { margin-top: 0; color: var(--primary); }
+  .project-meta { display: grid; grid-template-columns: 120px 1fr; gap: 8px 16px; font-size: 14px; }
+  .project-meta dt { font-weight: 700; color: var(--text-light); }
+  .project-meta dd { margin: 0; }
+  /* 提示框 */
+  .tip-box {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 16px 0;
+    font-size: 14px;
+  }
+  .tip-box strong { color: var(--primary); }
+  .warn-box {
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 16px 0;
+    font-size: 14px;
+  }
+  /* 面试题 */
+  .qa-item {
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--border);
+    font-size: 14px;
+  }
+  .qa-item:last-child { border-bottom: none; }
+  .qa-item::before { content: "Q "; color: var(--primary); font-weight: 700; }
+  /* 打印 */
+  @media print {
+    .sidebar { display: none; }
+    .main { margin-left: 0; padding: 20px; max-width: 100%; }
+    .day-card, .card, .project-card { break-inside: avoid; }
+    h2.section-title { break-after: avoid; }
+  }
+  /* 响应式 */
+  @media (max-width: 900px) {
+    .sidebar { transform: translateX(-100%); transition: transform 0.3s; }
+    .sidebar.open { transform: translateX(0); }
+    .main { margin-left: 0; padding: 24px 20px; }
+    .week-overview { grid-template-columns: 1fr 1fr; }
+    .menu-btn { display: block !important; }
+  }
+  .menu-btn {
+    display: none;
+    position: fixed;
+    top: 16px; left: 16px;
+    z-index: 200;
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  /* 滚动条 */
+  .sidebar::-webkit-scrollbar { width: 4px; }
+  .sidebar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 2px; }
+
+  /* ===== 进度条 ===== */
+  .progress-bar-container {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 32px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .progress-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .progress-count {
+    font-size: 13px;
+    color: var(--text-light);
+    font-weight: 600;
+  }
+  .progress-track {
+    width: 100%;
+    height: 10px;
+    background: #e5e7eb;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--week1), var(--week2), var(--week3), var(--week4));
+    border-radius: 5px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+  .progress-week-stats {
+    display: flex;
+    gap: 16px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+  .progress-week-stat {
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .progress-week-stat .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+  }
+
+  /* ===== 勾选框 ===== */
+  .day-checkbox {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 22px;
+    height: 22px;
+    border: 2px solid rgba(255,255,255,0.6);
+    border-radius: 5px;
+    cursor: pointer;
+    position: relative;
+    flex-shrink: 0;
+    background: rgba(255,255,255,0.15);
+    transition: all 0.2s;
+  }
+  .day-checkbox:checked {
+    background: rgba(255,255,255,0.9);
+    border-color: white;
+  }
+  .day-checkbox:checked::after {
+    content: '✓';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    color: #059669;
+    font-size: 14px;
+    font-weight: 900;
+  }
+  .day-card.completed {
+    opacity: 0.65;
+  }
+  .day-card.completed .day-header {
+    background: #6b7280 !important;
+  }
+  .day-card.completed .day-header::after {
+    content: ' 已完成';
+    font-size: 12px;
+    opacity: 0.9;
+    margin-left: auto;
+  }
+
+  /* 子任务勾选框 */
+  .task-checkbox {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #cbd5e1;
+    border-radius: 4px;
+    cursor: pointer;
+    vertical-align: middle;
+    margin-right: 8px;
+    position: relative;
+    flex-shrink: 0;
+    transition: all 0.15s;
+  }
+  .task-checkbox:checked {
+    background: var(--success);
+    border-color: var(--success);
+  }
+  .task-checkbox:checked::after {
+    content: '✓';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -55%);
+    color: white;
+    font-size: 11px;
+    font-weight: 900;
+  }
+  .day-body ul li {
+    display: flex;
+    align-items: flex-start;
+  }
+  .day-body ul li .task-text {
+    flex: 1;
+  }
+  .day-body ul li.task-done .task-text {
+    text-decoration: line-through;
+    color: var(--text-light);
+  }
+
+  /* 重置按钮 */
+  .progress-reset {
+    font-size: 11px;
+    color: var(--text-light);
+    cursor: pointer;
+    text-decoration: underline;
+    background: none;
+    border: none;
+    padding: 0;
+    margin-left: 12px;
+  }
+  .progress-reset:hover { color: var(--week4); }
+</style>
+</head>
+<body>
+
+<button class="menu-btn" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ 目录</button>
+
+<div class="layout">
+  <!-- 侧边栏 -->
+  <nav class="sidebar">
+    <div class="sidebar-title">学习计划目录</div>
+    <a href="#cover">封面</a>
+    <a href="#s1">一、资料评估与补充</a>
+    <a href="#s2">二、岗位需求与优劣势</a>
+    <a href="#s3">三、30天计划总览</a>
+    <div class="nav-week">第一周 · Day 1-7</div>
+    <a href="#day1" class="nav-h2">Day 1 Agent概念+LLM API</a>
+    <a href="#day2" class="nav-h2">Day 2 ReAct原理</a>
+    <a href="#day3" class="nav-h2">Day 3 Function Calling</a>
+    <a href="#day4" class="nav-h2">Day 4 上下文+Memory</a>
+    <a href="#day5" class="nav-h2">Day 5 Plan-and-Execute</a>
+    <a href="#day6" class="nav-h2">Day 6 项目：个人助手</a>
+    <a href="#day7" class="nav-h2">Day 7 复盘+博客</a>
+    <div class="nav-week">第二周 · Day 8-14</div>
+    <a href="#day8" class="nav-h2">Day 8 LangGraph入门</a>
+    <a href="#day9" class="nav-h2">Day 9 LangGraph进阶</a>
+    <a href="#day10" class="nav-h2">Day 10 Multi-Agent原理</a>
+    <a href="#day11" class="nav-h2">Day 11 Multi-Agent实战</a>
+    <a href="#day12" class="nav-h2">Day 12 RAG原理</a>
+    <a href="#day13" class="nav-h2">Day 13 代码RAG实战</a>
+    <a href="#day14" class="nav-h2">Day 14 项目2完成</a>
+    <div class="nav-week">第三周 · Day 15-21</div>
+    <a href="#day15" class="nav-h2">Day 15 Harness概念</a>
+    <a href="#day16" class="nav-h2">Day 16 dsh架构总览</a>
+    <a href="#day17" class="nav-h2">Day 17 源码精读(一)</a>
+    <a href="#day18" class="nav-h2">Day 18 源码精读(二)</a>
+    <a href="#day19" class="nav-h2">Day 19 第一个插件</a>
+    <a href="#day20" class="nav-h2">Day 20 高级插件</a>
+    <a href="#day21" class="nav-h2">Day 21 项目3+开源</a>
+    <div class="nav-week">第四周 · Day 22-30</div>
+    <a href="#day22" class="nav-h2">Day 22 综合项目设计</a>
+    <a href="#day23" class="nav-h2">Day 23 核心功能开发</a>
+    <a href="#day24" class="nav-h2">Day 24 Harness集成</a>
+    <a href="#day25" class="nav-h2">Day 25 前端界面</a>
+    <a href="#day26" class="nav-h2">Day 26 效果评估优化</a>
+    <a href="#day27" class="nav-h2">Day 27 服务化部署</a>
+    <a href="#day28" class="nav-h2">Day 28 文档+开源+博客</a>
+    <a href="#day29" class="nav-h2">Day 29 面试准备</a>
+    <a href="#day30" class="nav-h2">Day 30 模拟面试+投递</a>
+    <a href="#s8">四、实战项目详解</a>
+    <a href="#s9">五、学习方法与坚持</a>
+    <a href="#s10">六、面试准备</a>
+  </nav>
+
+  <!-- 主内容 -->
+  <main class="main">
+    <div class="cover" id="cover">
+      <h1>AI Agent 开发转型<br>30 天学习计划</h1>
+      <p class="subtitle">面向 AI Agent 开发工程师 / Agent Harness 研发工程师</p>
+      <div class="meta">
+        <span class="meta-item">👤 前端开发者转型</span>
+        <span class="meta-item">⏱ 30天 / 4周</span>
+        <span class="meta-item">💻 原理+项目实战</span>
+        <span class="meta-item">🚀 TypeScript 技术栈</span>
+      </div>
+    </div>
+
+    <!-- 进度条 -->
+    <div class="progress-bar-container">
+      <div class="progress-header">
+        <span class="progress-title">📊 30 天学习进度</span>
+        <span>
+          <span class="progress-count" id="progressCount">0 / 30 天 · 0 项任务</span>
+          <button class="progress-reset" onclick="resetProgress()">重置进度</button>
+        </span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="progress-week-stats">
+        <span class="progress-week-stat"><span class="dot" style="background:var(--week1)"></span>第1周 <span id="w1stat">0/7</span></span>
+        <span class="progress-week-stat"><span class="dot" style="background:var(--week2)"></span>第2周 <span id="w2stat">0/7</span></span>
+        <span class="progress-week-stat"><span class="dot" style="background:var(--week3)"></span>第3周 <span id="w3stat">0/7</span></span>
+        <span class="progress-week-stat"><span class="dot" style="background:var(--week4)"></span>第4周 <span id="w4stat">0/9</span></span>
+      </div>
+    </div>
+
+    <!-- 一、资料评估 -->
+    <h2 class="section-title" id="s1">一、现有资料评估与补充建议</h2>
+
+    <h3>1.1 现有资料评估</h3>
+
+    <div class="card">
+      <h4>📘 资料一：Hello-Agents《从零开始构建智能体》</h4>
+      <p>Datawhale 出品的系统性 Agent 教程，共 5 大部分 16 章，是目前国内最完整的 Agent 入门到进阶开源教程之一。</p>
+      <p><strong>覆盖范围：</strong></p>
+      <ul>
+        <li><strong>基础篇：</strong>Agent 定义、历史、LLM 基础与局限</li>
+        <li><strong>构建篇：</strong>ReAct / Plan-and-Solve / Reflection 范式手写实现、低代码平台（Coze/Dify/n8n）、主流框架（AutoGen/AgentScope/LangGraph）</li>
+        <li><strong>高级篇：</strong>Memory 与 RAG、上下文工程、MCP/A2A/ANP 通信协议、Agentic RL</li>
+        <li><strong>实战篇：</strong>智能旅行助手、深度研究 Agent、赛博小镇三大综合项目</li>
+      </ul>
+      <p><span class="tag tag-p0">优点</span>体系完整、理论与实战并重、中文友好、有可运行代码</p>
+      <p><span class="tag tag-p1">不足</span>偏 Python 技术栈；Harness 工程化层面（稳定性、成本控制、沙箱、插件化架构）涉及较浅</p>
+      <p><strong>定位：</strong>第 1-2 周核心教材，重点学第 1-6 章和第 8-10 章</p>
+    </div>
+
+    <div class="card">
+      <h4>📗 资料二：deepseek-harness</h4>
+      <p>DeepSeek 开源的 Agent 运行时框架，核心理念是"一切皆插件"（Everything is a Plugin），基于 Cordis（Koishi.js 生态的依赖注入框架）构建，<strong>技术栈为 TypeScript</strong>。</p>
+      <p><strong>核心架构（由内到外）：</strong></p>
+      <ul>
+        <li><strong>Agent Loop 层：</strong>任务推进循环，控制何时请求模型、何时调用工具、何时结束</li>
+        <li><strong>Agent Runtime 层：</strong>Agent 注册、沙箱、模型/工具调用 Session 管理、交互模式</li>
+        <li><strong>插件层：</strong>模型适配器、工具注册表、会话/存储、沙箱/权限、调度/任务，全部可插拔</li>
+        <li><strong>入口层：</strong>Web、Headless、ACP、SDK 统一进入运行核心</li>
+      </ul>
+      <p><span class="tag tag-p0">优点</span>直接对标 Agent Harness 岗位；TypeScript 技术栈对你前端出身是巨大差异化优势；架构设计先进</p>
+      <p><span class="tag tag-p1">不足</span>学习门槛较高，需先有 Agent 基础；文档精简；项目较新社区教程少</p>
+      <p><strong>定位：</strong>第 3 周核心研读对象，先跑通再读源码，最终开发自定义插件</p>
+    </div>
+
+    <div class="tip-box">
+      <strong>💡 关键洞察：</strong>deepseek-harness 是 TypeScript 写的，这意味着你可以比 Python 背景的候选人更快读懂源码、贡献插件。这是面试中的差异化卖点，务必在第 3 周深耕。
+    </div>
+
+    <h3>1.2 需要补充的学习材料</h3>
+    <table>
+      <thead><tr><th>优先级</th><th>材料</th><th>用途</th><th>学习阶段</th></tr></thead>
+      <tbody>
+        <tr><td><span class="tag tag-p0">P0</span></td><td>LangGraph 官方文档 + Tutorials</td><td>两个 JD 都明确要求；状态机式 Agent 编排，生产级首选</td><td>第 2 周</td></tr>
+        <tr><td><span class="tag tag-p0">P0</span></td><td>MCP（Model Context Protocol）官方规范</td><td>现代 Agent 工具调用标准协议，Function Calling 的进化方向</td><td>第 1-2 周</td></tr>
+        <tr><td><span class="tag tag-p1">P1</span></td><td>LangChain 核心概念文档</td><td>JD1 明确要求；理解 Chain / Tool / Agent 抽象</td><td>第 2 周初</td></tr>
+        <tr><td><span class="tag tag-p1">P1</span></td><td>Anthropic《构建高效Agent》指南（中文翻译）</td><td>Harness 工程最佳实践，覆盖 Prompt 编排、上下文管理、错误恢复</td><td>第 3 周</td></tr>
+        <tr><td><span class="tag tag-p1">P1</span></td><td>RAG 实战：《Hello-Agents》第8章（中文）为主，LlamaIndex 作实现参考</td><td>JD1 加分项；向量检索、文本分片、Embedding 工程化</td><td>第 2 周末</td></tr>
+        <tr><td><span class="tag tag-p2">P2</span></td><td>ReAct 论文（Yao et al., 2022）</td><td>理解 Agent 底层推理+行动范式的源头</td><td>第 1 周</td></tr>
+        <tr><td><span class="tag tag-p2">P2</span></td><td>OpenAI Agents SDK / Swarm 文档</td><td>对比学习多 Agent 编排思路</td><td>第 2 周选学</td></tr>
+        <tr><td><span class="tag tag-p2">P2</span></td><td>Cordis 官方文档</td><td>理解 deepseek-harness 的依赖注入底座</td><td>第 3 周</td></tr>
+        <tr><td><span class="tag tag-p3">P3</span></td><td>Claude Code / Cursor 深度使用</td><td>JD1 加分项；从使用者视角理解 Coding Agent 的 Harness 设计</td><td>全程</td></tr>
+      </tbody>
+    </table>
+
+    <!-- 二、岗位需求 -->
+    <h2 class="section-title" id="s2">二、目标岗位需求拆解与优劣势分析</h2>
+
+    <h3>2.1 岗位核心要求对比</h3>
+    <table>
+      <thead><tr><th>维度</th><th>AI Agent 开发工程师（JD1）</th><th>Agent Harness 研发工程师（JD2）</th></tr></thead>
+      <tbody>
+        <tr><td><strong>核心职责</strong></td><td>Agent 执行引擎、工具调用链路、任务编排；Multi-Agent 协作；Function Calling 与 RAG 集成；质量评估与性能调优</td><td>Agent Harness 架构与系统底座；长时间高复杂度执行的稳定性与可控性；Agent-用户协作与反馈闭环；前沿技术调研</td></tr>
+        <tr><td><strong>必备技术</strong></td><td>LangChain / LlamaIndex；Prompt 工程；上下文窗口管理；Agent 插件开发</td><td>LangChain/LangGraph、AutoGen、CrewAI；ReAct/CoT/Plan-and-Execute 原理；原型到服务化部署全链路</td></tr>
+        <tr><td><strong>编程语言</strong></td><td>未明确（推测 Python 为主）</td><td><strong>Python + JS/TS（明确要求）</strong></td></tr>
+        <tr><td><strong>加分项</strong></td><td>RAG 系统开发；Cursor/Copilot/Claude Code 深度使用；Agent 应用上线经验</td><td>AI Agent 开源项目贡献；模型后训练经验</td></tr>
+        <tr><td><strong>工程要求</strong></td><td>代码生成/自动化测试/代码审查场景的 Agent；大规模代码场景稳定性</td><td>稳定性、效果评估、成本控制的实际经验；算法设计到工程落地完整能力</td></tr>
+      </tbody>
+    </table>
+
+    <h3>2.2 你的优势与差距</h3>
+    <div class="card card-primary">
+      <h4>✅ 核心优势</h4>
+      <ul>
+        <li>10 年工作经验 + 8 年前端，工程素养扎实，代码质量和工程化意识强</li>
+        <li><strong>TypeScript / JavaScript 精通，而 deepseek-harness 正是 TS 技术栈，可直接读源码、写插件</strong></li>
+        <li>百度、腾讯大厂背景，具备大规模系统开发和协作经验</li>
+        <li>AI 公众号博主，有技术输出能力，学习过程中可同步产出内容</li>
+        <li>北航工科背景，算法和计算机基础扎实</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>⚠️ 需要补齐的差距</h4>
+      <ul>
+        <li>LLM 应用开发经验：Prompt 工程、Function Calling、上下文管理需要系统学习和实战</li>
+        <li>Agent 框架：LangChain / LangGraph / AutoGen 等需要从零掌握</li>
+        <li>Python 能力：LangChain 生态以 Python 为主，需要能读能写</li>
+        <li>RAG 技术：向量检索、Embedding、文本分片等需要项目实战</li>
+        <li>Agent Harness 工程化：稳定性、成本控制、沙箱、评估体系等生产级经验</li>
+        <li>可展示的项目：需要 1-2 个有深度、可演示、有 GitHub 仓库的 Agent 项目</li>
+      </ul>
+    </div>
+
+    <h3>2.3 转型策略</h3>
+    <div class="card card-highlight">
+      <p>以<strong>"前端 + TypeScript + Agent Harness"</strong>为差异化定位，不跟纯算法/纯 Python 背景的人拼模型能力，而是拼工程化和 Harness 层的深度理解。</p>
+      <ul>
+        <li>用 TypeScript 实现所有项目（LangGraph 有 JS 版本，deepseek-harness 原生 TS）</li>
+        <li>重点深耕 deepseek-harness 源码，争取成为早期贡献者（JD2 加分项）</li>
+        <li>项目选择偏向"前端工程效率 Agent"，发挥领域知识优势</li>
+        <li>学习过程中同步写公众号文章，建立个人技术品牌</li>
+      </ul>
+    </div>
+
+    <!-- 三、总览 -->
+    <h2 class="section-title" id="s3">三、30 天学习计划总览</h2>
+
+    <div class="week-overview">
+      <div class="week-card" style="background:var(--week1)">
+        <div class="week-num">WEEK 1 · Day 1-7</div>
+        <h4>Agent 基础</h4>
+        <p>理解核心概念，手写 ReAct 循环，实现带工具调用的个人助手 Agent</p>
+      </div>
+      <div class="week-card" style="background:var(--week2)">
+        <div class="week-num">WEEK 2 · Day 8-14</div>
+        <h4>框架+Multi-Agent+RAG</h4>
+        <p>掌握 LangGraph，实现 Multi-Agent 协作，搭建代码仓库级 RAG</p>
+      </div>
+      <div class="week-card" style="background:var(--week3)">
+        <div class="week-num">WEEK 3 · Day 15-21</div>
+        <h4>Harness 工程化</h4>
+        <p>理解 Harness 架构，精读 deepseek-harness 源码，开发自定义插件</p>
+      </div>
+      <div class="week-card" style="background:var(--week4)">
+        <div class="week-num">WEEK 4 · Day 22-30</div>
+        <h4>综合项目+面试</h4>
+        <p>完成端到端综合项目，服务化部署，系统准备面试</p>
+      </div>
+    </div>
+
+    <table>
+      <thead><tr><th>周次</th><th>核心目标</th><th>关键产出</th><th>对应资料</th></tr></thead>
+      <tbody>
+        <tr><td><strong>第1周</strong></td><td>理解 Agent 核心概念，手写 ReAct 循环，实现带工具调用的个人助手 Agent</td><td>项目1：个人助手 Agent（GitHub + 博客1篇）</td><td>Hello-Agents 第1-4章 + ReAct论文</td></tr>
+        <tr><td><strong>第2周</strong></td><td>掌握 LangGraph 状态机编排，实现 Multi-Agent 协作，搭建代码仓库级 RAG</td><td>项目2：Multi-Agent 代码审查系统（GitHub + 博客1篇）</td><td>Hello-Agents 第6/8章 + LangGraph文档 + LlamaIndex</td></tr>
+        <tr><td><strong>第3周</strong></td><td>理解 Harness 架构，精读 deepseek-harness 源码，开发自定义插件</td><td>项目3：dsh 自定义插件（PR或独立仓库 + 博客1篇）</td><td>deepseek-harness 源码 + Cordis文档 + Anthropic指南</td></tr>
+        <tr><td><strong>第4周</strong></td><td>完成端到端综合项目，服务化部署，准备面试材料</td><td>项目4：前端工程效率 Agent（完整项目+Demo+面试故事线）</td><td>全部资料整合 + 面试题准备</td></tr>
+      </tbody>
+    </table>
+
+    <div class="tip-box">
+      <strong>⏱ 每日时间投入建议：</strong>工作日 2-3 小时（晚上），周末 6-8 小时。30 天总计约 80-100 小时。如果时间有限，优先保证每天的实战编码部分，原理学习可利用碎片时间。
+    </div>
+
+    <!-- 第一周 -->
+    <h2 class="section-title">四、第一周：Agent 基础与第一个可运行 Agent</h2>
+    <p>本周目标：从"用过 AI 工具"转变为"理解 AI Agent 如何工作"，并亲手写出第一个能调用工具的 Agent。每天都有可运行的代码产出。</p>
+
+    <!-- Day 1 -->
+    <div class="day-card" id="day1">
+      <div class="day-header" style="background:var(--week1)"><span class="day-num">DAY 1</span> Agent 概念入门 + LLM API 实战</div>
+      <div class="day-body">
+        <div class="day-section"><div class="day-label">📖 原理学习</div><p><strong>《Hello-Agents》第1章「初识智能体」+ 第2章「智能体发展史」+ 第3章「大语言模型基础与局限」</strong>：什么是 Agent、Agent 的类型（Workflow / Agentic / AI Native）、Agent 发展历史、LLM 的能力与局限。理解"LLM + 工具 + 记忆 = Agent"的基本公式。</p></div>
+        <div class="day-section"><div class="day-label">💻 实战任务</div>
+          <ul>
+            <li>注册并配置 OpenAI / DeepSeek / 智谱等至少一个 LLM API（推荐 DeepSeek，性价比高）</li>
+            <li>用 TypeScript 写第一个脚本：调用 LLM API，实现基础对话</li>
+            <li>尝试 System Prompt 对输出的影响，记录 3 组对比实验</li>
+          </ul>
+        </div>
+        <div class="day-section"><div class="day-label output">📦 当日产出</div><p>可运行的 TS 脚本（llm-hello.ts）+ API 调用笔记</p></div>
+        <div class="day-section"><div class="day-label check">✅ 验收标准</div><p>能独立调用 LLM API 并解释 System / User / Assistant 消息的作用</p></div>
+      </div>
+    </div>
+
+    <!-- Day 2 -->
+    <div class="day-card" id="day2">
+      <div class="day-header" style="background:var(--week1)"><span class="day-num">DAY 2</span> ReAct 原理 + 手写推理循环</div>
+      <div class="day-body">
+        <div class="day-section"><div class="day-label">📖 原理学习</div><p><strong>《Hello-Agents》第4章「智能体经典范式构建」ReAct 部分</strong> + <strong>ReAct 论文</strong>（Yao et al., 2022, "ReAct: Synergizing Reasoning and Acting in Language Models"）：理解 Thought → Action → Observation 循环如何让 LLM 具备解决复杂问题的能力。</p></div>
+        <div class="day-section"><div class="day-label">💻 实战任务</div>
+          <ul>
+            <li>用 TypeScript 手写一个极简 ReAct 循环（不依赖任何框架）</li>
+            <li>实现：解析 LLM 输出中的 Action / Action Input → 执行预定义函数 → 将 Observation 传回 LLM → 循环直到得到 Final Answer</li>
+            <li>测试场景：简单数学计算（LLM 不擅长的，需要调用计算器工具）</li>
+          </ul>
+        </div>
+        <div class="day-section"><div class="day-label output">📦 当日产出</div><p>react-loop.ts（约 100-150 行）+ 运行截图</p></div>
+        <div class="day-section"><div class="day-label check">✅ 验收标准</div><p>Agent 能通过调用计算器工具正确完成多步数学运算</p></div>
+      </div>
+    </div>
+
+    <!-- Day 3 -->
+    <div class="day-card" id="day3">
+      <div class="day-header" style="background:var(--week1)"><span class="day-num">DAY 3</span> Function Calling + 工具封装体系</div>
+      <div class="day-body">
+        <div class="day-section"><div class="day-label">📖 原理学习</div><p><strong>《Hello-Agents》第4章「智能体经典范式构建」工具调用 / Function Calling 部分</strong> + <strong>MCP（Model Context Protocol）官方规范</strong>基础概念篇：工具定义的 JSON Schema 格式、模型如何选择工具、工具调用结果如何回传。理解为什么 Function Calling 比纯文本解析更可靠。</p></div>
+        <div class="day-section"><div class="day-label">💻 实战任务</div>
+          <ul>
+            <li>将 Day 2 的手写工具改为标准 Function Calling 格式</li>
+            <li>封装 3 个工具：计算器、天气查询（模拟）、网络搜索（模拟或真实 API）</li>
+            <li>实现工具注册中心：统一管理工具定义、描述、执行函数</li>
+          </ul>
+        </div>
+        <div class="day-section"><div class="day-label output">📦 当日产出</div><p>tool-registry.ts + 3 个工具实现</p></div>
+        <div class="day-section"><div class="day-label check">✅ 验收标准</div><p>Agent 能根据用户问题自动选择正确的工具并调用</p></div>
+      </div>
+    </div>
+
+    <!-- Day 4 -->
+    <div class="day-card" id="day4">
+      <div class="day-header" style="background:var(--week1)"><span class="day-num">DAY 4</span> 上下文管理 + Memory 机制</div>
+      <div class="day-body">
+        <div class="day-section"><div class="day-label">📖 原理学习</div><p><strong>《Hello-Agents》第8章「记忆与RAG系统」Memory / 短期记忆部分</strong>：上下文窗口管理、Token 计数、对话历史截断、摘要压缩、滑动窗口。理解 Agent 的短期记忆（对话历史）和长期记忆（向量存储）的区别。</p></div>
+        <div class="day-section"><div class="day-label">💻 实战任务</div>
+          <ul>
+            <li>为 Agent 添加对话历史管理（保留最近 N 轮 + 自动摘要旧对话）</li>
+            <li>实现 Token 计数和上下文溢出处理</li>
+            <li>测试：进行 20 轮以上对话，观察上下文管理效果</li>
+          </ul>
+        </div>
+        <div class="day-section"><div class="day-label output">📦 当日产出</div><p>memory-manager.ts + 长对话测试记录</p></div>
+        <div class="day-section"><div class="day-label check">✅ 验收标准</div><p>长对话不超出 Token 限制，且 Agent 能记住早期关键信息</p></div>
+      </div>
+    </div>
+
+    <!-- Day 5 -->
+    <div class="day-card" id="day5">
+      <div class="day-header" style="background:var(--week1)"><span class="day-num">DAY 5</span> Plan-and-Execute 与 Reflection 范式</div>
+      <div class="day-body">
+        <div class="day-section"><div class="day-label">📖 原理学习</div><p><strong>《Hello-Agents》第4章「智能体经典范式构建」Plan-and-Solve + Reflection 部分</strong>：学习 Plan-and-Execute（先规划后执行）和 Reflection（自我反思修正）两种 Agent 范式。理解不同范式的适用场景：ReAct 适合动态探索，Plan-and-Execute 适合目标明确的复杂任务，Reflection 适合质量要求高的场景。</p></div>
+        <div class="day-section"><div class="day-label">💻 实战任务</div>
+          <ul>
+            <li>实现 Plan-and-Execute Agent：先让 LLM 输出步骤计划，再逐步执行</li>
+            <li>实现 Reflection 机制：执行后让 LLM 评估结果，不满意则修正重试</li>
+            <li>对比 ReAct / Plan-and-Execute / Reflection 在同一任务上的表现</li>
+          </ul>
+        </div>
+        <div class="day-section"><div class="day-label output">📦 当日产出</div><p>plan-execute-agent.ts + reflection-agent.ts + 对比笔记</p></div>
+        <div class="day-section"><div class="day-label check">✅ 验收标准</div><p>能解释三种范式的区别和适用场景，并给出代码实现</p></div>
+      </div>
+    </div>
+
+    <!-- Day 6 -->
+    <div class="day-card" id="day6">
+      <div class="day-header" style="background:var(--week1)"><span class="day-num">DAY 6</span> 项目实战：个人助手 Agent</div>
+      <div class="day-body">
+        <div class="day-section"><div class="day-label">📖 原理学习</div><p><strong>《Hello-Agents》第4章全章回顾整合</strong> + <strong>第7章「自研框架HelloAgents」架构参考</strong>：将前5天所学的 ReAct、Function Calling、Memory、工具注册中心整合为一个完整的个人助手 Agent 架构，参考 HelloAgents 自研框架的模块划分思路。</p></div>
+        <div class="day-section"><div class="day-label">💻 实战任务（项目1开发日）</div>
+          <ul>
+            <li>整合 ReAct 循环 + Function Calling + Memory + 工具注册中心</li>
+            <li>实现至少 5 个工具：待办管理、笔记、天气、计算器、网页摘要</li>
+            <li>添加命令行交互界面（CLI）</li>
+            <li>编写 README 和使用示例</li>
+          </ul>
+        </div>
+        <div class="day-section"><div class="day-label output">📦 当日产出</div><p>完整项目仓库（personal-agent）+ README.md</p></div>
+        <div class="day-section"><div class="day-label check">✅ 验收标准</div><p>项目可 clone 后直接运行，能通过 CLI 完成多轮对话和工具调用</p></div>
+      </div>
+    </div>
+
+    <!-- Day 7 -->
+    <div class="day-card" id="day7">
+      <div class="day-header" style="background:var(--week1)"><span class="day-num">DAY 7</span> 复盘 + 技术博客输出</div>
+      <div class="day-body">
+        <div class="day-section"><div class="day-label">📖 原理学习</div><p><strong>本周内容复盘整理</strong> + <strong>《Hello-Agents》第5章「基于低代码平台的智能体搭建」</strong>（Coze / Dify / n8n）：通过对比低代码平台与手写 Agent 的区别，加深对 Agent 底层原理的理解。预习第6章框架开发实践。</p></div>
+        <div class="day-section"><div class="day-label">💻 实战任务</div>
+          <ul>
+            <li>完善项目 1 的文档和代码注释</li>
+            <li>写一篇公众号/博客文章：《我用 TypeScript 手写了一个 AI Agent，这是我学到的》</li>
+            <li>将项目推送到 GitHub，设置好描述和标签</li>
+            <li>预习第 2 周内容：LangGraph 官方 Quickstart</li>
+          </ul>
+        </div>
+        <div class="day-section"><div class="day-label output">📦 当日产出</div><p>GitHub 公开仓库 + 技术博客 1 篇</p></div>
+        <div class="day-section"><div class="day-label check">✅ 验收标准</div><p>仓库有完整 README，博客文章结构完整</p></div>
+      </div>
+    </div>
+
+    <!-- 第二周 -->
+    <h2 class="section-title">五、第二周：框架深入 + Multi-Agent + RAG</h2>
+    <p>本周目标：从"手写 Agent"升级到"用生产级框架构建复杂 Agent"，掌握 LangGraph 状态机编排、Multi-Agent 协作和 RAG 检索增强。这是两个 JD 都明确要求的核心技能。</p>
+
+    <div class="day-card" id="day8">
+      <div class="day-header" style="background:var(--week2)"><span class="day-num">DAY 8</span> LangChain 核心概念 + LangGraph 入门</div>
+      <div class="day-body">
+        <div class="day-section"><div class="day-label">📖 原理学习</div><p><strong>《Hello-Agents》第6章「框架开发实践」LangChain / LangGraph 部分</strong> + <strong>LangGraph 官方文档</strong> Quickstart & Core Concepts：学习 LangChain 核心抽象（Chain、Tool、Agent、Retriever、Memory），理解 LangChain 与 LangGraph 的关系，掌握 StateGraph 的节点、边、状态概念。</p></div>
+        <div class="day-section"><div class="day-label">💻 实战任务</div>
+          <ul><li>安装 @langchain/langgraph（JS/TS 版本）</li><li>完成官方 Quickstart：构建一个带工具调用的简单 Agent</li><li>理解 StateGraph 的节点（Node）、边（Edge）、状态（State）概念</li><li>用 LangGraph 重写 Day 2 的 ReAct Agent</li></ul>
+        </div>
+        <div class="day-section"><div class="day-label output">📦 当日产出</div><p>langgraph-react-agent.ts + 概念笔记</p></div>
+        <div class="day-section"><div class="day-label check">✅ 验收标准</div><p>能解释 StateGraph 中 state 如何在节点间传递</p></div>
+      </div>
+    </div>
+
+    <div class="day-card" id="day9">
+      <div class="day-header" style="background:var(--week2)"><span class="day-num">DAY 9</span> LangGraph 进阶：条件边、检查点、人机协作</div>
+      <div class="day-body">
+        <div class="day-section"><div class="day-label">📖 原理学习</div><p><strong>LangGraph 官方文档</strong> Advanced Concepts 章节：Conditional Edges（条件边）、Checkpointer（检查点/状态持久化）、Human-in-the-loop（人机协作）。这些是生产级 Agent 的必备能力。</p></div>
+        <div class="day-section"><div class="day-label">💻 实战任务</div>
+          <ul><li>实现一个带条件分支的工作流：根据用户意图路由到不同处理节点</li><li>添加 MemorySaver 检查点，实现对话中断后恢复</li><li>实现人机协作节点：在执行危险操作前暂停等待用户确认</li><li>模拟失败场景，测试状态恢复能力</li></ul>
+        </div>
+        <div class="day-section"><div class="day-label output">📦 当日产出</div><p>langgraph-advanced.ts（含条件边+检查点+人机协作）</p></div>
+        <div class="day-section"><div class="day-label check">✅ 验收标准</div><p>Agent 能在中断后从断点继续，条件分支逻辑正确</p></div>
+      </div>
+    </div>
+
+    <div class="day-card" id="day10">
+      <div class="day-header" style="background:var(--week2)"><span class="day-num">DAY 10</span> Multi-Agent 协作原理与模式</div>
+      <div class="day-body">
+        <div class="day-section"><div class="day-label">📖 原理学习</div><p><strong>《Hello-Agents》第6章「框架开发实践」Multi-Agent 部分</strong> + <strong>第10章「Agent 通信协议（MCP / A2A / ANP）」</strong>：学习任务分解、角色分工、Agent 间通信、上下文传递。常见模式：Orchestrator-Worker、Pipeline、Debate、Hierarchical。</p></div>
+        <div class="day-section"><div class="day-label">💻 实战任务</div>
+          <ul><li>设计一个 Multi-Agent 系统架构图（规划者 + 编码者 + 测试者）</li><li>用 LangGraph 实现 Orchestrator-Worker 模式</li><li>实现 Agent 间的消息传递和上下文共享机制</li><li>测试：让三个 Agent 协作完成一个简单编程任务</li></ul>
+        </div>
+        <div class="day-section"><div class="day-label output">📦 当日产出</div><p>multi-agent-design.md + multi-agent-basic.ts</p></div>
+        <div class="day-section"><div class="day-label check">✅ 验收标准</div><p>能画出 Multi-Agent 架构图并解释各 Agent 职责</p></div>
+      </div>
+    </div>
+
+    <div class="day-card" id="day11">
+      <div class="day-header" style="background:var(--week2)"><span class="day-num">DAY 11</span> LangGraph Multi-Agent 实战</div>
+      <div class="day-body">
+        <div class="day-section"><div class="day-label">📖 原理学习</div><p><strong>LangGraph 官方文档</strong> Multi-Agent Tutorials 章节：Supervisor 模式、Network 模式。学习如何管理 Agent 间的上下文隔离和信息共享，理解为什么上下文隔离是 Multi-Agent 的关键设计。</p></div>
+        <div class="day-section"><div class="day-label">💻 实战任务</div>
+          <ul><li>用 LangGraph Supervisor 模式实现代码审查系统：Planner / Coder / Reviewer / Tester 四个 Agent</li><li>实现 Agent 间的结构化消息传递</li><li>添加循环终止条件（最大迭代次数 / 任务完成判定）</li></ul>
+        </div>
+        <div class="day-section"><div class="day-label output">📦 当日产出</div><p>multi-agent-code-review.ts（雏形）</p></div>
+        <div class="day-section"><div class="day-label check">✅ 验收标准</div><p>四个 Agent 能按流程协作，完成一个简单函数的编写+审查+测试</p></div>
+      </div>
+    </div>
+
+    <div class="day-card" id="day12">
+      <div class="day-header" style="background:var(--week2)"><span class="day-num">DAY 12</span> RAG 原理：Embedding、向量检索、文本分片</div>
+      <div class="day-body">
+        <div class="day-section"><div class="day-label">📖 原理学习</div><p><strong>《Hello-Agents》第8章「记忆与RAG系统」RAG 全流程部分</strong>（中文）为主，LlamaIndex 官方文档作为 API 实现参考：文档加载 → 文本分片 → Embedding 向量化 → 向量存储 → 检索 → 上下文拼装 → LLM 生成。理解不同分片策略（固定大小、语义分片、递归分片）的优劣。</p></div>
+        <div class="day-section"><div class="day-label">💻 实战任务</div>
+          <ul><li>用 TypeScript 实现一个极简 RAG 流程</li><li>文本分片：实现固定大小分片 + 重叠（overlap）</li><li>Embedding：调用 OpenAI / 智谱 Embedding API</li><li>向量存储：用内存数组 + 余弦相似度计算实现简易检索</li><li>测试：对一份技术文档进行问答</li></ul>
+        </div>
+        <div class="day-section"><div class="day-label output">📦 当日产出</div><p>simple-rag.ts + RAG 流程笔记</p></div>
+        <div class="day-section"><div class="day-label check">✅ 验收标准</div><p>能解释 RAG 全流程，并通过检索正确回答文档相关问题</p></div>
+      </div>
+    </div>
+
+    <div class="day-card" id="day13">
+      <div class="day-header" style="background:var(--week2)"><span class="day-num">DAY 13</span> 代码仓库级 RAG 实战</div>
+      <div class="day-body">
+        <div class="day-section"><div class="day-label">📖 原理学习</div><p><strong>《Hello-Agents》第8章「记忆与RAG系统」代码检索 / 高级分片部分</strong>（中文）为主，LlamaIndex 官方文档作为 API 实现参考：代码仓库级 RAG 的特殊挑战——代码结构感知分片（按函数/类/文件）、代码 Embedding 模型、AST 解析辅助检索、跨文件上下文拼装。这是 JD1 明确提到的"代码仓库级 RAG 引擎"。</p></div>
+        <div class="day-section"><div class="day-label">💻 实战任务</div>
+          <ul><li>选择一个开源项目作为知识库</li><li>实现代码感知分片：按文件 → 按函数/类（用 TypeScript AST 解析）</li><li>构建代码索引：文件路径 + 函数名 + 代码内容 + 注释</li><li>实现代码检索 Agent，集成到 LangGraph Agent 中作为工具</li></ul>
+        </div>
+        <div class="day-section"><div class="day-label output">📦 当日产出</div><p>code-rag.ts + 代码检索工具</p></div>
+        <div class="day-section"><div class="day-label check">✅ 验收标准</div><p>Agent 能根据代码仓库回答"XX函数在哪里定义"等问题</p></div>
+      </div>
+    </div>
+
+    <div class="day-card" id="day14">
+      <div class="day-header" style="background:var(--week2)"><span class="day-num">DAY 14</span> 项目2完成 + 复盘 + 博客</div>
+      <div class="day-body">
+        <div class="day-section"><div class="day-label">📖 原理学习</div><p><strong>本周内容整合复盘</strong>：回顾 LangGraph 编排（Day8-9）、Multi-Agent 协作（Day10-11）、RAG 检索（Day12-13），将三大模块整合为统一的代码审查系统架构。参考 <strong>《Hello-Agents》第6章</strong>框架整合部分。</p></div>
+        <div class="day-section"><div class="day-label">💻 实战任务（项目2完善日）</div>
+          <ul><li>将 Multi-Agent 系统 + 代码 RAG 整合</li><li>功能：输入 GitHub 仓库地址 → 自动克隆 → 构建索引 → Multi-Agent 协作完成代码审查报告</li><li>添加审查维度：代码质量、潜在 Bug、性能问题、安全风险</li><li>输出结构化审查报告（Markdown）</li><li>写博客：《用 LangGraph 构建 Multi-Agent 代码审查系统》并推送 GitHub</li></ul>
+        </div>
+        <div class="day-section"><div class="day-label output">📦 当日产出</div><p>完整项目2仓库 + 博客1篇 + 项目演示截图</p></div>
+        <div class="day-section"><div class="day-label check">✅ 验收标准</div><p>项目能对一个真实仓库生成有价值的代码审查报告</p></div>
+      </div>
+    </div>
+
+    <!-- 第三周 -->
+    <h2 class="section-title">六、第三周：Agent Harness 工程化与 deepseek-harness</h2>
+    <p>本周是转型的关键周，直接对标 Agent Harness 研发工程师岗位。核心是理解"模型之外的一切"——Harness 层的工程化挑战。你的 TypeScript 优势在本周充分发挥。</p>
+
+    <div class="day-card" id="day15">
+      <div class="day-header" style="background:var(--week3)"><span class="day-num">DAY 15</span> Harness 概念与工程化挑战</div>
+      <div class="day-body">
+        <div class="day-section"><div class="day-label">📖 原理学习</div><p><strong>Anthropic 官方指南《构建高效Agent》（Building Effective Agents）中文翻译全文</strong> + <strong>《Hello-Agents》第9章「上下文工程」</strong>：深入理解 Agent Harness——Model + Harness = Agent。Harness 是模型之外的一切：Prompt 编排、工具调用、上下文管理、记忆系统、子 Agent 协调、错误恢复、用户交互界面。核心挑战：长任务稳定性（Context Rot、循环失控、工具失败）、效果评估、成本控制、可观测性。</p></div>
+        <div class="day-section"><div class="day-label">💻 实战任务</div>
+          <ul><li>用案例分析 Harness 的价值：同一个模型在不同 Harness 下表现差异巨大</li><li>为项目1/2的 Agent 添加 Trace 日志（记录每步输入输出、Token消耗、耗时）</li><li>统计并分析 Agent 运行中的成本分布和瓶颈</li></ul>
+        </div>
+        <div class="day-section"><div class="day-label output">📦 当日产出</div><p>harness-concepts.md + agent-trace.ts + 成本分析报告</p></div>
+        <div class="day-section"><div class="day-label check">✅ 验收标准</div><p>能清晰解释 Harness 是什么、为什么重要、核心挑战有哪些</p></div>
+      </div>
+    </div>
+
+    <div class="day-card" id="day16">
+      <div class="day-header" style="background:var(--week3)"><span class="day-num">DAY 16</span> deepseek-harness 架构总览</div>
+      <div class="day-body">
+        <div class="day-section"><div class="day-label">📖 原理学习</div><p><strong>deepseek-harness 仓库 README.md</strong> + <strong>docs/ 架构设计文档</strong> + <strong>官方介绍博客</strong>：通读核心设计哲学——Everything is a Plugin、Cordis 依赖注入、分层架构（Agent Loop → Runtime → 插件层 → 入口层）、核心概念（Capability、Bundle、Profile、Context）。</p></div>
+        <div class="day-section"><div class="day-label">💻 实战任务</div>
+          <ul><li>git clone deepseek-harness，安装并运行 dsh CLI</li><li>体验默认功能：文件编辑、Shell 执行、Web 搜索</li><li>画出 deepseek-harness 的架构图</li><li>阅读 package.json，理解项目依赖和模块划分</li></ul>
+        </div>
+        <div class="day-section"><div class="day-label output">📦 当日产出</div><p>dsh 运行环境 + 架构图 + 模块分析笔记</p></div>
+        <div class="day-section"><div class="day-label check">✅ 验收标准</div><p>dsh 能在本地正常运行，能画出并解释架构图</p></div>
+      </div>
+    </div>
+
+    <div class="day-card" id="day17">
+      <div class="day-header" style="background:var(--week3)"><span class="day-num">DAY 17</span> 源码精读（一）：Agent Loop 与 Runtime</div>
+      <div class="day-body">
+        <div class="day-section"><div class="day-label">📖 原理学习</div><p><strong>deepseek-harness 源码 packages/core/agent-loop 目录</strong>（Agent Loop 实现）+ <strong>packages/core/runtime 目录</strong>（Runtime 实现）：深入阅读核心源码——Agent Loop（任务推进循环）、Agent Runtime（Agent注册、Session管理、沙箱）、事件系统（Cordis事件驱动）、上下文管理（消息历史、Token预算控制）。</p></div>
+        <div class="day-section"><div class="day-label">💻 实战任务</div>
+          <ul><li>找到 Agent Loop 核心实现文件，逐行精读并添加注释</li><li>追踪一条用户消息的完整执行链路</li><li>画出消息流转的时序图</li><li>记录关键设计决策</li></ul>
+        </div>
+        <div class="day-section"><div class="day-label output">📦 当日产出</div><p>带注释的源码（fork仓库）+ 消息流转时序图 + 精读笔记</p></div>
+        <div class="day-section"><div class="day-label check">✅ 验收标准</div><p>能向他人讲解一条消息在 dsh 中的完整生命周期</p></div>
+      </div>
+    </div>
+
+    <div class="day-card" id="day18">
+      <div class="day-header" style="background:var(--week3)"><span class="day-num">DAY 18</span> 源码精读（二）：插件体系与工具注册</div>
+      <div class="day-body">
+        <div class="day-section"><div class="day-label">📖 原理学习</div><p><strong>deepseek-harness 源码 packages/plugin-api 目录</strong>（插件接口定义）+ <strong>Cordis 官方文档 Core Concepts</strong>（Plugin/Service/Context/Lifecycle）：精读插件机制、工具注册表（定义、注册、发现、调用）、模型适配器（不同LLM统一接入）、会话/存储插件、沙箱/权限机制。</p></div>
+        <div class="day-section"><div class="day-label">💻 实战任务</div>
+          <ul><li>精读一个现有插件的完整实现（如文件系统工具插件）</li><li>理解插件生命周期：安装 → 启动 → 运行 → 停止</li><li>分析工具定义的 Schema 和执行流程</li><li>对比 dsh 插件机制与 LangChain Tool 抽象的异同</li></ul>
+        </div>
+        <div class="day-section"><div class="day-label output">📦 当日产出</div><p>插件机制分析笔记 + 插件实现模板（注释版）+ 对比分析</p></div>
+        <div class="day-section"><div class="day-label check">✅ 验收标准</div><p>能独立解释一个插件从注册到被调用的完整流程</p></div>
+      </div>
+    </div>
+
+    <div class="day-card" id="day19">
+      <div class="day-header" style="background:var(--week3)"><span class="day-num">DAY 19</span> 开发第一个 deepseek-harness 插件</div>
+      <div class="day-body">
+        <div class="day-section"><div class="day-label">📖 原理学习</div><p><strong>deepseek-harness 源码 examples/ 目录</strong>（插件示例）+ <strong>docs/ 插件开发指南</strong>：学习 dsh 插件开发规范，理解插件的目录结构、配置方式、依赖声明。</p></div>
+        <div class="day-section"><div class="day-label">💻 实战任务（项目3启动）</div>
+          <ul><li>开发一个自定义工具插件：前端工程相关工具（Vue/React组件生成器、ESLint检查器、Package.json依赖分析器）</li><li>按照插件规范实现：定义工具 Schema → 实现执行函数 → 注册到 Harness</li><li>在 dsh 中加载并测试你的插件</li><li>编写插件文档</li></ul>
+        </div>
+        <div class="day-section"><div class="day-label output">📦 当日产出</div><p>第一个自定义插件（可运行）+ 插件开发笔记</p></div>
+        <div class="day-section"><div class="day-label check">✅ 验收标准</div><p>插件能被 dsh 正确加载，Agent 能调用你的自定义工具</p></div>
+      </div>
+    </div>
+
+    <div class="day-card" id="day20">
+      <div class="day-header" style="background:var(--week3)"><span class="day-num">DAY 20</span> 开发高级插件：自定义 Agent 行为</div>
+      <div class="day-body">
+        <div class="day-section"><div class="day-label">📖 原理学习</div><p><strong>deepseek-harness 源码 packages/core/hooks 或中间件相关目录</strong> + <strong>Cordis 官方文档 Lifecycle & Events</strong>：学习如何通过插件深度定制 Agent 行为——自定义 Prompt 模板、修改 Agent Loop 逻辑、添加 Hook/中间件、实现自定义记忆策略。</p></div>
+        <div class="day-section"><div class="day-label">💻 实战任务（项目3进阶）</div>
+          <ul><li>开发高级插件：前端代码专家 Agent（注入前端领域知识的 System Prompt + 专用工具集）或成本优化插件（自动监控Token消耗，超预算时切换策略）</li><li>实现 Hook 机制：在模型调用前后插入自定义逻辑</li><li>测试并对比自定义 Agent 与默认 Agent 的表现差异</li></ul>
+        </div>
+        <div class="day-section"><div class="day-label output">📦 当日产出</div><p>高级插件 + 效果对比测试报告</p></div>
+        <div class="day-section"><div class="day-label check">✅ 验收标准</div><p>插件能实质性改变 Agent 行为，且有可量化的效果对比</p></div>
+      </div>
+    </div>
+
+    <div class="day-card" id="day21">
+      <div class="day-header" style="background:var(--week3)"><span class="day-num">DAY 21</span> 项目3完善 + 开源贡献 + 博客</div>
+      <div class="day-body">
+        <div class="day-section"><div class="day-label">💻 实战任务</div>
+          <ul><li>完善项目3的两个插件，写好文档和测试</li><li>尝试向 deepseek-harness 官方仓库提交 PR（哪怕是文档修复或小功能）</li><li>如果 PR 不合适，则将插件作为独立开源项目发布</li><li>写博客：《DeepSeek Harness 源码精读与插件开发实战》</li><li>复盘本周，整理 Harness 工程化知识体系</li></ul>
+        </div>
+        <div class="day-section"><div class="day-label output">📦 当日产出</div><p>项目3完整仓库 + PR（或独立开源项目）+ 博客1篇</p></div>
+        <div class="day-section"><div class="day-label check">✅ 验收标准</div><p>至少有一个公开可访问的插件项目，博客文章发布</p></div>
+      </div>
+    </div>
+
+    <!-- 第四周 -->
+    <h2 class="section-title">七、第四周：综合项目 + 部署 + 面试准备</h2>
+    <p>本周是冲刺周：整合前三周所学，完成一个有深度、可演示的综合项目，服务化部署，并系统准备面试。项目是你求职的核心筹码。</p>
+
+    <div class="day-card" id="day22">
+      <div class="day-header" style="background:var(--week4)"><span class="day-num">DAY 22</span> 综合项目设计与架构</div>
+      <div class="day-body">
+        <div class="day-section"><div class="day-label">📖 原理学习</div><p><strong>《Hello-Agents》第13章「智能旅行助手」</strong> + <strong>第14章「自动化深度研究Agent」</strong>综合案例架构参考：综合项目定位为前端工程效率 Agent，功能包括代码审查（Multi-Agent）、组件生成、文档生成、技术调研（RAG）。技术栈：LangGraph（编排）+ deepseek-harness 插件（工具）+ 代码 RAG（检索）。</p></div>
+        <div class="day-section"><div class="day-label">💻 实战任务</div>
+          <ul><li>编写项目设计文档：架构图、模块划分、技术选型、API 设计</li><li>初始化项目仓库，配置 TypeScript + 依赖</li><li>搭建项目基础框架：LangGraph 编排层 + 工具层 + RAG 层</li><li>定义核心 Agent 的角色和 Prompt</li></ul>
+        </div>
+        <div class="day-section"><div class="day-label output">📦 当日产出</div><p>项目设计文档（PRD）+ 项目骨架代码</p></div>
+        <div class="day-section"><div class="day-label check">✅ 验收标准</div><p>设计文档包含架构图，项目骨架可运行</p></div>
+      </div>
+    </div>
+
+    <div class="day-card" id="day23">
+      <div class="day-header" style="background:var(--week4)"><span class="day-num">DAY 23</span> 综合项目开发（一）：核心功能</div>
+      <div class="day-body">
+        <div class="day-section"><div class="day-label">💻 实战任务</div>
+          <ul><li>实现代码审查 Agent（复用项目2的 Multi-Agent 架构）</li><li>实现组件生成 Agent（ReAct + 代码模板工具）</li><li>实现代码 RAG 检索（复用项目2的代码索引）</li><li>集成三个 Agent 到统一编排层</li></ul>
+        </div>
+        <div class="day-section"><div class="day-label output">📦 当日产出</div><p>核心功能代码（3个 Agent 可独立运行）</p></div>
+        <div class="day-section"><div class="day-label check">✅ 验收标准</div><p>每个 Agent 能独立完成对应任务</p></div>
+      </div>
+    </div>
+
+    <div class="day-card" id="day24">
+      <div class="day-header" style="background:var(--week4)"><span class="day-num">DAY 24</span> 综合项目开发（二）：Harness 集成与优化</div>
+      <div class="day-body">
+        <div class="day-section"><div class="day-label">📖 原理学习</div><p><strong>Anthropic《构建高效Agent》（Building Effective Agents）中文翻译·评估与可观测性章节</strong> + <strong>《Hello-Agents》第11章「Agent评估与优化」</strong>：学习 Agent 效果评估方法——建立评估数据集、A/B 测试、Bad Case 分析。理解成本优化策略：缓存、模型路由、Prompt 压缩。</p></div>
+        <div class="day-section"><div class="day-label">💻 实战任务</div>
+          <ul><li>将 deepseek-harness 插件集成到综合项目中（或参考其架构优化工具层）</li><li>添加 Trace 和可观测性：记录每步的输入输出、Token、耗时</li><li>实现 Bad Case 收集机制</li><li>优化 Prompt 和工具描述，提升 Agent 准确率</li></ul>
+        </div>
+        <div class="day-section"><div class="day-label output">📦 当日产出</div><p>集成 Harness 能力的项目 + Trace 系统 + 优化记录</p></div>
+        <div class="day-section"><div class="day-label check">✅ 验收标准</div><p>项目有完整的运行日志和 Trace，能定位问题</p></div>
+      </div>
+    </div>
+
+    <div class="day-card" id="day25">
+      <div class="day-header" style="background:var(--week4)"><span class="day-num">DAY 25</span> 综合项目开发（三）：前端界面与交互</div>
+      <div class="day-body">
+        <div class="day-section"><div class="day-label">💻 实战任务（发挥前端优势）</div>
+          <ul><li>开发 Web 前端界面（React/Vue）：对话式交互、Agent 运行过程可视化、代码审查报告展示页</li><li>实现后端 API：将 Agent 封装为 RESTful API</li><li>前后端联调</li></ul>
+        </div>
+        <div class="day-section"><div class="day-label output">📦 当日产出</div><p>完整的 Web 应用（前端 + 后端 API）</p></div>
+        <div class="day-section"><div class="day-label check">✅ 验收标准</div><p>能通过浏览器界面完整使用所有 Agent 功能</p></div>
+      </div>
+    </div>
+
+    <div class="day-card" id="day26">
+      <div class="day-header" style="background:var(--week4)"><span class="day-num">DAY 26</span> 项目优化：效果评估与成本控制</div>
+      <div class="day-body">
+        <div class="day-section"><div class="day-label">📖 原理学习</div><p><strong>《Hello-Agents》第11章「Agent评估与优化」效果评估部分</strong> + <strong>Anthropic《构建高效Agent》（Building Effective Agents）中文翻译·成本控制章节</strong>：系统学习 Agent 评估体系——任务成功率、工具调用准确率、平均完成步数和耗时、Token 消耗和成本、Bad Case 分类和根因分析。</p></div>
+        <div class="day-section"><div class="day-label">💻 实战任务</div>
+          <ul><li>构建 20+ 个测试用例的评估数据集</li><li>运行评估，记录各项指标</li><li>分析 Bad Case，分类并修复 Top 3 问题</li><li>优化成本：实现简单的模型路由（简单问题用小模型，复杂问题用大模型）</li><li>生成项目评估报告</li></ul>
+        </div>
+        <div class="day-section"><div class="day-label output">📦 当日产出</div><p>评估数据集 + 评估报告 + 优化后的项目</p></div>
+        <div class="day-section"><div class="day-label check">✅ 验收标准</div><p>有量化的评估指标，至少修复 3 个 Bad Case</p></div>
+      </div>
+    </div>
+
+    <div class="day-card" id="day27">
+      <div class="day-header" style="background:var(--week4)"><span class="day-num">DAY 27</span> 服务化部署</div>
+      <div class="day-body">
+        <div class="day-section"><div class="day-label">📖 原理学习</div><p><strong>Docker 官方文档 Get Started</strong> + <strong>所选云平台部署文档</strong>（无特定书籍）：学习 Agent 服务化部署——Docker 容器化、环境变量管理、API 密钥安全、日志收集、基础监控。</p></div>
+        <div class="day-section"><div class="day-label">💻 实战任务</div>
+          <ul><li>编写 Dockerfile，将项目容器化</li><li>使用 docker-compose 编排应用（含向量数据库等依赖）</li><li>部署到云服务器（或本地演示环境）</li><li>配置环境变量和密钥管理</li><li>编写部署文档</li></ul>
+        </div>
+        <div class="day-section"><div class="day-label output">📦 当日产出</div><p>Docker 镜像 + docker-compose.yml + 部署文档 + 可访问的 Demo</p></div>
+        <div class="day-section"><div class="day-label check">✅ 验收标准</div><p>项目能通过 Docker 一键启动，有可访问的在线 Demo</p></div>
+      </div>
+    </div>
+
+    <div class="day-card" id="day28">
+      <div class="day-header" style="background:var(--week4)"><span class="day-num">DAY 28</span> 项目文档 + GitHub 开源 + 博客</div>
+      <div class="day-body">
+        <div class="day-section"><div class="day-label">💻 实战任务</div>
+          <ul><li>完善项目 README：项目介绍、架构图、功能演示（GIF/截图）、快速开始、技术栈、贡献指南</li><li>整理项目文档：设计文档、API 文档、开发指南</li><li>推送到 GitHub，设置 Topics、License、Release</li><li>写深度博客：《我用30天从前端转型 AI Agent 开发，做了一个前端工程效率 Agent》</li><li>在公众号/掘金/知乎发布</li></ul>
+        </div>
+        <div class="day-section"><div class="day-label output">📦 当日产出</div><p>完善的 GitHub 项目 + 深度博客 1 篇</p></div>
+        <div class="day-section"><div class="day-label check">✅ 验收标准</div><p>GitHub 项目有完整 README 和演示，博客发布</p></div>
+      </div>
+    </div>
+
+    <div class="day-card" id="day29">
+      <div class="day-header" style="background:var(--week4)"><span class="day-num">DAY 29</span> 面试准备：技术故事线与高频题</div>
+      <div class="day-body">
+        <div class="day-section"><div class="day-label">💻 实战任务</div>
+          <ul><li>准备自我介绍（1分钟版 + 3分钟版），突出转型逻辑和项目经验</li><li>整理技术故事线：项目1→Agent基础；项目2→LangGraph+Multi-Agent；项目3→Harness深度+TS优势；项目4→端到端工程能力</li><li>准备高频面试题（见下方第六章）</li><li>针对两个 JD 分别准备差异化的自我介绍和项目重点</li></ul>
+        </div>
+        <div class="day-section"><div class="day-label output">📦 当日产出</div><p>面试准备文档（自我介绍 + 故事线 + 题库）</p></div>
+        <div class="day-section"><div class="day-label check">✅ 验收标准</div><p>能流畅讲述每个项目的技术细节和个人贡献</p></div>
+      </div>
+    </div>
+
+    <div class="day-card" id="day30">
+      <div class="day-header" style="background:var(--week4)"><span class="day-num">DAY 30</span> 模拟面试 + 投递计划</div>
+      <div class="day-body">
+        <div class="day-section"><div class="day-label">💻 实战任务</div>
+          <ul><li>进行一次完整的模拟面试（可让朋友或 AI 扮演面试官）</li><li>根据模拟面试反馈查漏补缺</li><li>制定投递计划：目标公司列表、优先级、投递时间</li><li>优化简历：突出 AI Agent 相关项目和技能</li><li>🎉 庆祝完成 30 天学习计划！</li></ul>
+        </div>
+        <div class="day-section"><div class="day-label output">📦 当日产出</div><p>模拟面试记录 + 投递计划 + 优化后的简历</p></div>
+        <div class="day-section"><div class="day-label check">✅ 验收标准</div><p>完成至少一次模拟面试，有明确的投递计划</p></div>
+      </div>
+    </div>
+
+    <!-- 八、项目详解 -->
+    <h2 class="section-title" id="s8">八、四个实战项目详解</h2>
+    <p>四个项目层层递进，从基础到综合，每个项目都是你简历和面试中的筹码。建议全部使用 TypeScript 开发。</p>
+
+    <div class="project-card">
+      <h3>🏆 项目 1：个人助手 Agent（第 1 周）</h3>
+      <dl class="project-meta">
+        <dt>项目名称</dt><dd>TS Personal Agent</dd>
+        <dt>技术栈</dt><dd>TypeScript + DeepSeek/OpenAI API + 原生实现（不依赖框架）</dd>
+        <dt>核心功能</dt><dd>多轮对话 + 5个工具（待办、笔记、天气、计算器、网页摘要）+ 上下文管理</dd>
+        <dt>技术亮点</dt><dd>从零手写 ReAct 循环、Function Calling 工具注册中心、Token 感知的 Memory 管理</dd>
+        <dt>面试卖点</dt><dd>证明你理解 Agent 底层原理，不是只会调框架 API</dd>
+      </dl>
+    </div>
+
+    <div class="project-card">
+      <h3>🏆 项目 2：Multi-Agent 代码审查系统（第 2 周）</h3>
+      <dl class="project-meta">
+        <dt>项目名称</dt><dd>Multi-Agent Code Reviewer</dd>
+        <dt>技术栈</dt><dd>TypeScript + LangGraph（JS版）+ 代码 RAG</dd>
+        <dt>核心功能</dt><dd>输入 GitHub 仓库 → 自动构建代码索引 → Planner/Coder/Reviewer/Tester 四 Agent 协作 → 输出结构化审查报告</dd>
+        <dt>技术亮点</dt><dd>LangGraph Supervisor 模式、代码感知 RAG（AST分片）、条件分支与状态持久化、人机协作审批</dd>
+        <dt>面试卖点</dt><dd>直接对标 JD1 的 Multi-Agent 协作和代码仓库级 RAG 要求</dd>
+      </dl>
+    </div>
+
+    <div class="project-card">
+      <h3>🏆 项目 3：deepseek-harness 自定义插件（第 3 周）</h3>
+      <dl class="project-meta">
+        <dt>项目名称</dt><dd>dsh-frontend-kit（DeepSeek Harness 前端工程插件集）</dd>
+        <dt>技术栈</dt><dd>TypeScript + Cordis + deepseek-harness 插件 API</dd>
+        <dt>核心功能</dt><dd>插件1：Vue/React 组件生成器工具；插件2：前端代码专家 Agent（自定义 Prompt + 工具集 + Hook）</dd>
+        <dt>技术亮点</dt><dd>深度理解 dsh 插件化架构、Cordis 依赖注入、Agent Loop 定制化、Hook/中间件机制</dd>
+        <dt>面试卖点</dt><dd>直接对标 JD2 的 Agent Harness 工程落地经验；TypeScript 源码级理解；可能的开源 PR 贡献</dd>
+      </dl>
+    </div>
+
+    <div class="project-card">
+      <h3>🏆 项目 4：前端工程效率 Agent（第 4 周综合项目）</h3>
+      <dl class="project-meta">
+        <dt>项目名称</dt><dd>FE Agent - Frontend Engineering Copilot</dd>
+        <dt>技术栈</dt><dd>TypeScript + LangGraph + deepseek-harness 插件 + 代码 RAG + React 前端 + Docker</dd>
+        <dt>核心功能</dt><dd>代码审查（Multi-Agent）+ 组件生成 + 文档自动生成 + 技术问答（RAG），统一 Web 界面</dd>
+        <dt>技术亮点</dt><dd>端到端全栈项目、Multi-Agent + RAG + Harness 插件整合、可观测性 Trace 系统、效果评估数据集、Docker 部署、成本优化（模型路由）</dd>
+        <dt>面试卖点</dt><dd>完整的从原型到服务化部署经验（JD2 明确要求）；可演示的在线 Demo；量化的效果评估和成本控制</dd>
+      </dl>
+    </div>
+
+    <!-- 九、学习方法 -->
+    <h2 class="section-title" id="s9">九、学习方法与坚持策略</h2>
+
+    <h3>9.1 解决"看着看着没目标"的核心方法</h3>
+    <div class="card card-highlight">
+      <p>你现在的问题是<strong>"输入导向"</strong>的学习——看资料但没有明确的产出目标。本计划将学习模式转变为<strong>"产出导向"</strong>：每天都有明确的代码产出和验收标准。</p>
+      <ul>
+        <li>每天开始前，先看当日的【验收标准】，明确今天要做到什么</li>
+        <li>先写测试/定义输出，再学原理和写代码（Test-Driven Learning）</li>
+        <li>每天结束时必须有可运行的代码或可发布的内容，不允许"只看了没做"</li>
+        <li>每周日的复盘日是强制输出日：博客 + GitHub 推送，用公开承诺倒逼坚持</li>
+      </ul>
+    </div>
+
+    <h3>9.2 每日学习节奏建议</h3>
+    <table>
+      <thead><tr><th>时间段</th><th>内容</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>通勤/午休（30min）</td><td>原理学习（阅读文档/论文）</td><td>利用碎片时间输入，不写代码</td></tr>
+        <tr><td>晚上第1小时</td><td>实战编码（核心任务）</td><td>精力最好时写最难的代码</td></tr>
+        <tr><td>晚上第2小时</td><td>调试 + 笔记整理</td><td>解决问题，记录学到的关键点</td></tr>
+        <tr><td>睡前（15min）</td><td>回顾当日产出 + 明日计划</td><td>确认验收标准是否达成</td></tr>
+        <tr><td>周末上午（3h）</td><td>项目集中开发</td><td>大块时间做需要连续思考的任务</td></tr>
+        <tr><td>周末下午（2h）</td><td>博客写作 + 复盘</td><td>输出倒逼输入，建立个人品牌</td></tr>
+      </tbody>
+    </table>
+
+    <h3>9.3 坚持激励机制</h3>
+    <ul>
+      <li><strong>GitHub 贡献热力图：</strong>每天至少一次 commit，保持绿色连续</li>
+      <li><strong>博客发布节奏：</strong>每周至少 1 篇，30 天共 4 篇，建立技术影响力</li>
+      <li><strong>里程碑奖励：</strong>每完成一周给自己一个小奖励</li>
+      <li><strong>社群监督：</strong>在 AI 相关社群或公众号宣布你的 30 天计划</li>
+      <li><strong>进度可视化：</strong>在 GitHub 建 Learning 仓库，用 Markdown 记录每日进度</li>
+    </ul>
+
+    <h3>9.4 遇到困难时的应对</h3>
+    <ul>
+      <li>原理看不懂：先跳过，用起来再说，很多概念在用的过程中自然理解</li>
+      <li>代码写不出来：先找官方示例跑通，再逐步修改，不要从零硬写</li>
+      <li>API 调用出错：先检查 API Key、模型名称、参数格式，再看错误信息</li>
+      <li>某天没时间：至少完成最小任务（15分钟），保持连续性比单日完成量重要</li>
+      <li>进度落后：不要焦虑，优先保证项目产出，原理学习可以压缩，周末补</li>
+    </ul>
+
+    <!-- 十、面试准备 -->
+    <h2 class="section-title" id="s10">十、面试准备与投递建议</h2>
+
+    <h3>10.1 高频面试题准备</h3>
+
+    <h4>Agent 基础原理</h4>
+    <div class="card">
+      <div class="qa-item">什么是 AI Agent？Agent 与普通 LLM 调用的区别是什么？</div>
+      <div class="qa-item">解释 ReAct 范式的工作原理，Thought/Action/Observation 分别是什么？</div>
+      <div class="qa-item">ReAct、Plan-and-Execute、Reflection 三种范式的区别和适用场景？</div>
+      <div class="qa-item">Function Calling 的原理是什么？为什么比纯文本解析更可靠？</div>
+      <div class="qa-item">Agent 的上下文窗口管理有哪些策略？如何处理长对话？</div>
+    </div>
+
+    <h4>Multi-Agent 与框架</h4>
+    <div class="card">
+      <div class="qa-item">Multi-Agent 协作有哪些常见模式？Orchestrator-Worker 和 Pipeline 的区别？</div>
+      <div class="qa-item">LangGraph 的核心概念是什么？StateGraph 如何实现有状态的 Agent？</div>
+      <div class="qa-item">LangChain 和 LangGraph 的关系和区别是什么？</div>
+      <div class="qa-item">Multi-Agent 系统中如何管理上下文隔离和信息共享？</div>
+      <div class="qa-item">如何设计 Agent 间的通信协议？</div>
+    </div>
+
+    <h4>RAG 与工具</h4>
+    <div class="card">
+      <div class="qa-item">RAG 的完整流程是什么？每个环节的关键挑战是什么？</div>
+      <div class="qa-item">文本分片有哪些策略？代码分片和普通文本分片有什么不同？</div>
+      <div class="qa-item">Embedding 模型如何选择？向量检索的相似度计算方法有哪些？</div>
+      <div class="qa-item">MCP 协议是什么？与传统 Function Calling 有什么区别？</div>
+      <div class="qa-item">如何评估 RAG 系统的效果？</div>
+    </div>
+
+    <h4>Harness 工程化</h4>
+    <div class="card">
+      <div class="qa-item">什么是 Agent Harness？为什么说"模型之外的一切"都是 Harness？</div>
+      <div class="qa-item">同一个模型在不同 Harness 下表现差异巨大，原因是什么？</div>
+      <div class="qa-item">Agent 长任务执行的稳定性挑战有哪些？如何解决 Context Rot？</div>
+      <div class="qa-item">如何评估 Agent 的效果？有哪些量化指标？</div>
+      <div class="qa-item">如何控制 Agent 的运行成本？有哪些 Token 优化策略？</div>
+      <div class="qa-item">deepseek-harness 的"一切皆插件"架构是如何实现的？Cordis 框架起什么作用？</div>
+      <div class="qa-item">Agent 的可观测性如何设计？Trace 系统应该记录哪些信息？</div>
+    </div>
+
+    <h4>项目深挖（针对你的项目）</h4>
+    <div class="card">
+      <div class="qa-item">你的 Multi-Agent 代码审查系统中，四个 Agent 如何分工？消息如何传递？</div>
+      <div class="qa-item">代码 RAG 的分片策略是怎样的？如何处理跨文件的代码关联？</div>
+      <div class="qa-item">你开发的 deepseek-harness 插件做了什么？为什么选择这个功能？</div>
+      <div class="qa-item">综合项目的架构图能画一下吗？各层的职责是什么？</div>
+      <div class="qa-item">你的项目效果如何评估？有哪些量化指标？Bad Case 如何处理？</div>
+      <div class="qa-item">如果让你重新设计这个项目，你会做哪些改进？</div>
+    </div>
+
+    <h3>10.2 简历优化要点</h3>
+    <ul>
+      <li>技能栏添加：AI Agent 开发、LangGraph、Function Calling、RAG、Multi-Agent 编排、Agent Harness、TypeScript/Python</li>
+      <li>项目经历部分：将 4 个项目中的 2-3 个写入简历，突出技术深度和个人贡献</li>
+      <li>每个项目用 STAR 法则描述：情境→任务→行动→结果（量化成果）</li>
+      <li>添加 GitHub 链接和技术博客链接，让面试官可验证你的能力</li>
+      <li>自我评价部分：突出"前端 + TypeScript + Agent Harness"的差异化定位</li>
+    </ul>
+
+    <h3>10.3 投递策略</h3>
+    <ul>
+      <li><strong>优先投递：</strong>明确要求 JS/TS 的 Agent Harness 岗位（如 deepseek-harness 团队、有 TS 技术栈的公司）</li>
+      <li><strong>其次投递：</strong>通用 AI Agent 开发岗位，用 TypeScript 项目证明工程能力</li>
+      <li><strong>目标公司：</strong>百度、腾讯、阿里、字节、DeepSeek、月之暗面等有 Agent 平台的公司</li>
+      <li><strong>创业公司：</strong>AI Agent 赛道的初创公司往往更看重实战能力</li>
+      <li><strong>投递时间：</strong>30 天计划完成后（约 9 月 25 日）开始集中投递</li>
+      <li><strong>内推优先：</strong>利用前同事、技术社群、公众号读者等资源获取内推机会</li>
+    </ul>
+
+    <!-- 结尾 -->
+    <div class="card card-primary" style="margin-top:48px; text-align:center; padding:40px;">
+      <h3 style="margin-top:0; color:var(--primary);">写在最后</h3>
+      <p style="text-align:left;">你有 10 年工程经验、8 年前端积累、大厂背景和 TypeScript 精通，这些都是转型 AI Agent 开发的坚实基础。你缺的不是能力，而是一个清晰的目标和可执行的路径。</p>
+      <p style="text-align:left;">这份 30 天计划的核心逻辑是：<strong>用产出驱动学习，用项目证明能力，用差异化定位取胜。</strong>不要追求"学完所有资料"，而要追求"做出能展示的项目"。</p>
+      <p style="text-align:left;">deepseek-harness 是 TypeScript 写的，这是你的天然优势。当其他候选人还在用 Python 调 LangChain 时，你已经能读 Harness 源码、写插件、甚至贡献 PR——这就是你的护城河。</p>
+      <p style="text-align:left;">30 天后，你将拥有：<strong>4 个可展示的 GitHub 项目、4 篇技术博客、1 个可在线演示的综合应用、一套完整的面试准备。</strong></p>
+      <p style="font-size:18px; font-weight:700; color:var(--primary); margin-top:20px;">现在，从 Day 1 开始。</p>
+    </div>
+
+  </main>
+</div>
+
+<script>
+// ===== 侧边栏高亮当前章节 =====
+const sections = document.querySelectorAll('[id]');
+const navLinks = document.querySelectorAll('.sidebar a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop - 120;
+    if (window.scrollY >= sectionTop) current = section.getAttribute('id');
+  });
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+  });
+});
+navLinks.forEach(link => {
+  link.addEventListener('click', () => {
+    if (window.innerWidth <= 900) document.querySelector('.sidebar').classList.remove('open');
+  });
+});
+
+// ===== 进度勾选系统 =====
+const STORAGE_KEY = 'agent_plan_progress_v1';
+let progress = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+// progress 结构: { day1: true, day1_task0: true, day1_task1: false, ... }
+
+function saveProgress() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+}
+
+function getWeekNum(dayId) {
+  const n = parseInt(dayId.replace('day',''));
+  if (n <= 7) return 1;
+  if (n <= 14) return 2;
+  if (n <= 21) return 3;
+  return 4;
+}
+
+// ===== 学习资料链接映射 =====
+const studyLinks = {
+  day1: [{name:'《Hello-Agents》在线阅读',url:'https://datawhalechina.github.io/hello-agents'},{name:'GitHub仓库',url:'https://github.com/datawhalechina/hello-agents'}],
+  day2: [{name:'《Hello-Agents》在线阅读',url:'https://datawhalechina.github.io/hello-agents'},{name:'ReAct 中文解读（Prompt Engineering Guide）',url:'https://www.promptingguide.ai/zh/techniques/react'}],
+  day3: [{name:'《Hello-Agents》在线阅读',url:'https://datawhalechina.github.io/hello-agents'},{name:'MCP 中文文档',url:'https://mcp-docs.cn/'}],
+  day4: [{name:'《Hello-Agents》在线阅读',url:'https://datawhalechina.github.io/hello-agents'}],
+  day5: [{name:'《Hello-Agents》在线阅读',url:'https://datawhalechina.github.io/hello-agents'}],
+  day6: [{name:'《Hello-Agents》在线阅读',url:'https://datawhalechina.github.io/hello-agents'}],
+  day7: [{name:'《Hello-Agents》在线阅读',url:'https://datawhalechina.github.io/hello-agents'}],
+  day8: [{name:'《Hello-Agents》在线阅读',url:'https://datawhalechina.github.io/hello-agents'},{name:'LangGraph JS 中文文档',url:'https://github.langchain.ac.cn/langgraphjs/'},{name:'LangGraph 101 TS 实战仓库',url:'https://github.com/langchain-ai/langgraph-101-ts'}],
+  day9: [{name:'LangGraph JS 中文文档',url:'https://github.langchain.ac.cn/langgraphjs/'}],
+  day10: [{name:'《Hello-Agents》在线阅读',url:'https://datawhalechina.github.io/hello-agents'}],
+  day11: [{name:'LangGraph JS 中文文档',url:'https://github.langchain.ac.cn/langgraphjs/'}],
+  day12: [{name:'《Hello-Agents》在线阅读（第8章 RAG 系统）',url:'https://datawhalechina.github.io/hello-agents'}],
+  day13: [{name:'《Hello-Agents》在线阅读（第8章 代码检索）',url:'https://datawhalechina.github.io/hello-agents'}],
+  day14: [{name:'《Hello-Agents》在线阅读',url:'https://datawhalechina.github.io/hello-agents'}],
+  day15: [{name:'Anthropic《构建高效Agent》中文翻译',url:'https://blog.csdn.net/weixin_43807749/article/details/152788870'},{name:'《Hello-Agents》在线阅读',url:'https://datawhalechina.github.io/hello-agents'}],
+  day16: [{name:'deepseek-harness GitHub',url:'https://github.com/deepseek-ai/deepseek-harness'}],
+  day17: [{name:'deepseek-harness GitHub',url:'https://github.com/deepseek-ai/deepseek-harness'}],
+  day18: [{name:'deepseek-harness GitHub',url:'https://github.com/deepseek-ai/deepseek-harness'},{name:'Cordis 中文文档（插件基础）',url:'https://cordis.moe/zh-CN/guide/essential/index.html'}],
+  day19: [{name:'deepseek-harness GitHub',url:'https://github.com/deepseek-ai/deepseek-harness'}],
+  day20: [{name:'deepseek-harness GitHub',url:'https://github.com/deepseek-ai/deepseek-harness'},{name:'Cordis 中文文档（生命周期）',url:'https://cordis.moe/zh-CN/guide/essential/lifecycle.html'}],
+  day22: [{name:'《Hello-Agents》在线阅读',url:'https://datawhalechina.github.io/hello-agents'}],
+  day24: [{name:'Anthropic《构建高效Agent》中文翻译',url:'https://blog.csdn.net/weixin_43807749/article/details/152788870'},{name:'《Hello-Agents》在线阅读',url:'https://datawhalechina.github.io/hello-agents'}],
+  day26: [{name:'《Hello-Agents》在线阅读',url:'https://datawhalechina.github.io/hello-agents'},{name:'Anthropic《构建高效Agent》中文翻译',url:'https://blog.csdn.net/weixin_43807749/article/details/152788870'}],
+  day27: [{name:'Docker 中文文档',url:'https://docs.docker.com/zh-cn/get-started/'}],
+};
+
+// 为每个 day-card 注入学习资料链接
+function injectStudyLinks(card, dayId) {
+  if (!studyLinks[dayId]) return;
+  const sections = card.querySelectorAll('.day-section');
+  sections.forEach(sec => {
+    const lbl = sec.querySelector('.day-label');
+    if (lbl && lbl.textContent.includes('原理学习')) {
+      const linkP = document.createElement('p');
+      linkP.style.cssText = 'margin-top:8px;font-size:13px;color:var(--text-light);padding-top:6px;border-top:1px dashed var(--border);';
+      let html = '📚 学习资料：';
+      studyLinks[dayId].forEach((link, i) => {
+        if (i > 0) html += ' · ';
+        html += '<a href="' + link.url + '" target="_blank" rel="noopener" style="color:var(--primary);text-decoration:underline;">' + link.name + '</a>';
+      });
+      linkP.innerHTML = html;
+      sec.appendChild(linkP);
+    }
+  });
+}
+
+// 为每个 day-card 添加完成勾选框和子任务勾选框
+const dayCards = document.querySelectorAll('.day-card');
+dayCards.forEach(card => {
+  const dayId = card.id; // day1, day2, ...
+  const header = card.querySelector('.day-header');
+
+  // 0. 注入学习资料链接
+  injectStudyLinks(card, dayId);
+
+  // 1. 日完成勾选框
+  const dayCb = document.createElement('input');
+  dayCb.type = 'checkbox';
+  dayCb.className = 'day-checkbox';
+  dayCb.dataset.day = dayId;
+  dayCb.title = '标记本日全部完成';
+  if (progress[dayId]) {
+    dayCb.checked = true;
+    card.classList.add('completed');
+  }
+  dayCb.addEventListener('change', () => {
+    progress[dayId] = dayCb.checked;
+    if (dayCb.checked) {
+      card.classList.add('completed');
+      // 勾选日完成时，自动勾选所有子任务
+      card.querySelectorAll('.task-checkbox').forEach((tc, i) => {
+        tc.checked = true;
+        progress[dayId + '_task' + i] = true;
+        tc.closest('li').classList.add('task-done');
+      });
+    } else {
+      card.classList.remove('completed');
+    }
+    saveProgress();
+    updateProgress();
+  });
+  header.insertBefore(dayCb, header.firstChild);
+
+  // 2. 子任务勾选框（只给"实战任务"下的 ul li 添加）
+  const taskSections = card.querySelectorAll('.day-section');
+  taskSections.forEach(section => {
+    const label = section.querySelector('.day-label');
+    if (label && label.textContent.includes('实战任务')) {
+      const ul = section.querySelector('ul');
+      if (ul) {
+        ul.querySelectorAll('li').forEach((li, idx) => {
+          const text = li.innerHTML;
+          const taskKey = dayId + '_task' + idx;
+          li.innerHTML = '';
+          const cb = document.createElement('input');
+          cb.type = 'checkbox';
+          cb.className = 'task-checkbox';
+          cb.dataset.task = taskKey;
+          if (progress[taskKey]) {
+            cb.checked = true;
+            li.classList.add('task-done');
+          }
+          const span = document.createElement('span');
+          span.className = 'task-text';
+          span.innerHTML = text;
+          cb.addEventListener('change', () => {
+            progress[taskKey] = cb.checked;
+            li.classList.toggle('task-done', cb.checked);
+            // 检查是否所有子任务都完成了
+            const allTasks = card.querySelectorAll('.task-checkbox');
+            const allDone = Array.from(allTasks).every(c => c.checked);
+            const dayCheckbox = card.querySelector('.day-checkbox');
+            if (allDone && allTasks.length > 0) {
+              dayCheckbox.checked = true;
+              progress[dayId] = true;
+              card.classList.add('completed');
+            } else {
+              dayCheckbox.checked = false;
+              progress[dayId] = false;
+              card.classList.remove('completed');
+            }
+            saveProgress();
+            updateProgress();
+          });
+          li.appendChild(cb);
+          li.appendChild(span);
+        });
+      }
+    }
+  });
+});
+
+// 更新进度条
+function updateProgress() {
+  const dayCards = document.querySelectorAll('.day-card');
+  let dayDone = 0;
+  let taskDone = 0;
+  let taskTotal = 0;
+  const weekDone = [0,0,0,0,0]; // index 1-4
+
+  dayCards.forEach(card => {
+    const dayId = card.id;
+    const week = getWeekNum(dayId);
+    if (progress[dayId]) {
+      dayDone++;
+      weekDone[week]++;
+    }
+    const tasks = card.querySelectorAll('.task-checkbox');
+    tasks.forEach(t => {
+      taskTotal++;
+      if (t.checked) taskDone++;
+    });
+  });
+
+  const pct = Math.round((dayDone / dayCards.length) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressCount').textContent = dayDone + ' / ' + dayCards.length + ' 天 · ' + taskDone + ' / ' + taskTotal + ' 项任务';
+  document.getElementById('w1stat').textContent = weekDone[1] + '/7';
+  document.getElementById('w2stat').textContent = weekDone[2] + '/7';
+  document.getElementById('w3stat').textContent = weekDone[3] + '/7';
+  document.getElementById('w4stat').textContent = weekDone[4] + '/9';
+}
+
+function resetProgress() {
+  if (confirm('确定要重置所有学习进度吗？此操作不可撤销。')) {
+    progress = {};
+    localStorage.removeItem(STORAGE_KEY);
+    document.querySelectorAll('.day-checkbox').forEach(cb => { cb.checked = false; });
+    document.querySelectorAll('.task-checkbox').forEach(cb => { cb.checked = false; });
+    document.querySelectorAll('.day-card').forEach(c => c.classList.remove('completed'));
+    document.querySelectorAll('.day-body ul li').forEach(li => li.classList.remove('task-done'));
+    updateProgress();
+  }
+}
+
+// 初始化
+updateProgress();
+</script>
+</body>
+</html>

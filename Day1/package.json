@@ -1,0 +1,13 @@
+{
+  "name": "Day1",
+  "version": "1.0.0",
+  "description": "第一天 - 环境与 LLM API：跑通第一个 chat",
+  "keywords": [],
+  "author": "chaozhi Chen",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "openai": "^7.5.0"
+  }
+}
