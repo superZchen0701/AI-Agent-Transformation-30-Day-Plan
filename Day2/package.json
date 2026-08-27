@@ -1,7 +1,7 @@
 {
-  "name": "Day1",
+  "name": "Day2",
   "version": "1.0.0",
-  "description": "第1天 - 环境与 LLM API：跑通第一个 chat",
+  "description": "第2天 - Function Calling：让 LLM 自动调工具",
   "keywords": [],
   "author": "chaozhi Chen",
   "license": "MIT",
