@@ -1,0 +1,13 @@
+{
+  "name": "Day4",
+  "version": "1.0.0",
+  "description": "第4天 - 上下文管理 + Memory 机制（《Hello-Agents》第8章「记忆与RAG系统」Memory / 短期记忆部分）",
+  "keywords": [],
+  "author": "chaozhi Chen",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "openai": "^7.5.0"
+  }
+}
