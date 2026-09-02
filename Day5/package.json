@@ -1,0 +1,13 @@
+{
+  "name": "Day5",
+  "version": "1.0.0",
+  "description": "第5天 - （《Hello-Agents》第4章「智能体经典范式构建」Plan-and-Solve + Reflection 部分",
+  "keywords": [],
+  "author": "chaozhi Chen",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "openai": "^7.5.0"
+  }
+}
