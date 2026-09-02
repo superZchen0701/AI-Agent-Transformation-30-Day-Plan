@@ -1,7 +1,7 @@
-# nodejs
+# nodejs files
 node_modules
 
-
+# python files
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
