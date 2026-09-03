@@ -2,4 +2,6 @@
 
 TODO - 持续更新中......
 
-30天计划全部完成之后再完善这部分内容
+【豆包工作】AI_Agent_30天学习计划.html 和 【WorkBuddy】ai-agent-30day-plan.html 内容均不是最新的！！
+
+30天计划全部完成之后再完善README.md文件
