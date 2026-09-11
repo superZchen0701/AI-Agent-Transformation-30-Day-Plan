@@ -43,7 +43,7 @@ class Planner {
   async _sendMessages(messages) {
     const completion = await this.llm.chat.completions.create({
       messages,
-      model: 'deepseek-v4-flash'
+      model: 'deepseek-flash'
     });
     return completion.choices[0].message;
   }
@@ -103,7 +103,7 @@ class Executor {
   async _sendMessages(messages) {
     const completion = await this.llm.chat.completions.create({
       messages,
-      model: 'deepseek-v4-flash'
+      model: 'deepseek-flash'
     });
     return completion.choices[0].message;
   }

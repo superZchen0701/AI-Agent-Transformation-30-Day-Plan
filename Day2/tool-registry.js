@@ -185,7 +185,7 @@ async function web_search({ query }) {
 async function send_messages(messages, tools) {
   const completion = await openai.chat.completions.create({
     messages,
-    model: 'deepseek-v4-flash',
+    model: 'deepseek-flash',
     tools
   });
   return completion.choices[0].message;

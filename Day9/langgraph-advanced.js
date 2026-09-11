@@ -59,7 +59,7 @@ const StateAnnotation = Annotation.Root({
 // ======================================================================
 const model = new ChatOpenAI({
   apiKey: process.env.DEEPSEEK_API_KEY,
-  modelName: 'deepseek-v4-flash',
+  modelName: 'deepseek-flash',
   temperature: 0,
   configuration: { baseURL: process.env.DEEPSEEK_BASE_URL || 'https://api.deepseek.com' },
   timeout: 120_000,

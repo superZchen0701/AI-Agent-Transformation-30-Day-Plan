@@ -191,7 +191,7 @@
           <ol class="steps">
             <li>打开 <code>platform.deepseek.com/api_keys</code> 注册并创建 Key（国内有免费额度），存到 <code>.env</code></li>
             <li>新建 <code>chat.mjs</code>，用 <code>fetch('https://api.deepseek.com/chat/completions')</code> 发 POST（照抄官方示例）</li>
-            <li>body 里 <code>model:'deepseek-v4-flash'</code>，<code>messages:[{role:'system',...},{role:'user',...}]</code></li>
+            <li>body 里 <code>model:'deepseek-flash'</code>，<code>messages:[{role:'system',...},{role:'user',...}]</code></li>
             <li>改成 <code>while</code> 循环：终端读一行 → 放进 messages → 发请求 → 打印回复 → 显示 <code>usage</code></li>
           </ol>
           <div class="output"><b>✅ 产出：</b><code>chat.mjs</code> ｜ <b>验收：</b>运行后连续对话 ≥3 轮，且每轮都打印 <code>prompt_tokens / completion_tokens</code></div>

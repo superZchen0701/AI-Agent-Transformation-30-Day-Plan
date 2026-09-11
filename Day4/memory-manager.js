@@ -526,7 +526,7 @@ class ConversationHistory {
       try {
         const completion = await this.llmClient.chat.completions.create({
           messages: prompt,
-          model: 'deepseek-v4-flash'
+          model: 'deepseek-flash'
         });
         const raw = (completion.choices[0].message.content || '').trim();
         // 解析 JSON：兼容 LLM 偶发包裹 ```json ... ``` 的情况
@@ -596,7 +596,7 @@ class LongConversationAgent {
   async _sendMessages(messages) {
     const completion = await this.llmClient.chat.completions.create({
       messages,
-      model: 'deepseek-v4-flash',
+      model: 'deepseek-flash',
       tools: this.tools
     });
     // 返回 message + usage：usage 含 prompt/completion/total tokens（DeepSeek 非流式默认返回）

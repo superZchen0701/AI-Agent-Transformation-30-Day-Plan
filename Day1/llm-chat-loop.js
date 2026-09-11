@@ -55,7 +55,7 @@ async function main() {
 
     const completion = await openai.chat.completions.create({
       messages,
-      model: 'deepseek-v4-flash',
+      model: 'deepseek-flash',
       thinking: { 'type': 'disabled' }, // 思考模式开关 enabled/disabled
       reasoning_effort: 'low', // 思考强度控 low/high/max
       stream: true, // 流式输出 true/false

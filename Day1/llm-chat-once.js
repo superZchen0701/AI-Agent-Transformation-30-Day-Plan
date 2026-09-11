@@ -49,7 +49,7 @@ async function main() {
       { role: 'assistant', content: '鸡为什么过马路' },
       { role: 'user', content: '我不知道' }
     ],
-    model: 'deepseek-v4-flash',
+    model: 'deepseek-flash',
     thinking: { 'type': 'disabled' }, // 思考模式开关 enabled/disabled
     reasoning_effort: 'low', // 思考强度控 low/high/max
     stream: true, // 流式输出 true/false

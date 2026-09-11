@@ -1,6 +1,6 @@
 # ReAct / Plan-and-Solve / Reflection 三范式对比笔记
 
-> 同一任务，三种范式，实跑对照（DeepSeek-V4-Flash 模型）
+> 同一任务，三种范式，实跑对照（deepseek-flash 模型）
 
 ## 一、统一对比任务
 
@@ -242,7 +242,7 @@ Observation: 工具 'calculator' 执行失败: Unexpected token ']'
 ## 七、本对比的局限
 
 1. **单任务单次跑**：未做多任务多次跑取平均，结果有随机性
-2. **模型单一**：仅用 DeepSeek-V4-Flash，不同模型可能表现差异大
+2. **模型单一**：仅用 deepseek-flash，不同模型可能表现差异大
 3. **任务偏简单导致 Reflection 价值未体现**：苹果+小诗任务对 LLM 太容易，初版即最优，第 1 轮反思就停止——LLM 调用次数反与 ReAct 并列最少（2 次）。更适合 Reflection 的应是素数题（初版试除法→反思→埃氏筛→欧拉筛）等含明确优化路径的任务，才能体现迭代价值
 4. **ReAct 中途有 calculator 解析失败重试**：容错兜底解决了"无工具可调"的崩溃问题，但"步数最少"不代表"最稳健"
 5. **流式输出差异**：reflection-agent.js 已改为流式输出（屏幕实时显示 delta），react-agent.js 和 plan-and-solve-agent.js 仍是非流式（屏幕长时间无输出）。生产环境应统一流式以提升用户体验

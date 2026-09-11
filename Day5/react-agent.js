@@ -158,7 +158,7 @@ class ReActAgent {
     // LLM 只用文本输出 Thought/Action，由代码解析
     const completion = await this.llm.chat.completions.create({
       messages,
-      model: 'deepseek-v4-flash'
+      model: 'deepseek-flash'
     });
     return completion.choices[0].message;
   }

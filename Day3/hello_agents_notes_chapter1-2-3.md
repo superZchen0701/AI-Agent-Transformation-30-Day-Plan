@@ -80,7 +80,7 @@ console.log(`当前轮次: ${curTurn}\ncontent: ${content}\ntool_calls: ${JSON.s
 async function send_messages(messages) {
   const completion = await openai.chat.completions.create({
     messages,
-    model: 'deepseek-v4-flash',
+    model: 'deepseek-flash',
     tools
   });
   return completion.choices[0].message;
@@ -170,6 +170,6 @@ messages.push(message);        // 第124行：LLM 响应入栈
 messages.push({ role: 'tool', tool_call_id: tool.id, content: toolResult });  // 第146行：工具结果入栈
 ```
 
-**问题**：每轮对话 messages 持续增长，多轮后必超出 DeepSeek 的 context window（deepseek-v4-flash 约 1M tokens），届时 API 返回 400 或内容被截断。
+**问题**：每轮对话 messages 持续增长，多轮后必超出 DeepSeek 的 context window（deepseek-flash 约 1M tokens），届时 API 返回 400 或内容被截断。
 
 **解决思路（后续课程会讲）**：摘要压缩 / 滑动窗口 / 向量检索记忆（RAG）。当前 demo 还没涉及。

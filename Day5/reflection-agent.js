@@ -132,7 +132,7 @@ class ReflectionAgent {
     // 流式输出：实时打印 delta，避免长时间无输出不知道是否在跑
     const completion = await this.llm.chat.completions.create({
       messages,
-      model: 'deepseek-v4-flash',
+      model: 'deepseek-flash',
       stream: true,
       stream_options: { include_usage: true }, // 最后一个 chunk 携带 usage 字段
     });

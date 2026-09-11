@@ -36,7 +36,7 @@ async function main1() {
   // agent用到的模型
   const model = new ChatOpenAI({
     apiKey: process.env.DEEPSEEK_API_KEY,
-    modelName: 'deepseek-v4-flash',
+    modelName: 'deepseek-flash',
     temperature: 0,
     // 关键：不配置 baseURL 会默认请求 api.openai.com（国内无法直连导致超时），必须指向 DeepSeek
     configuration: { baseURL: process.env.DEEPSEEK_BASE_URL || 'https://api.deepseek.com' },
@@ -83,7 +83,7 @@ async function main2() {
 
   const model = new ChatOpenAI({
     apiKey: process.env.DEEPSEEK_API_KEY,
-    modelName: 'deepseek-v4-flash',
+    modelName: 'deepseek-flash',
     temperature: 0,
     configuration: { baseURL: process.env.DEEPSEEK_BASE_URL || 'https://api.deepseek.com' },
     timeout: 120_000, // 单次请求超时 120s（工具调用链路多轮请求，需留足时间）
@@ -268,7 +268,7 @@ async function main() {
   // 3. 模型绑定工具（原生 Function Calling，不再手写文本解析）
   const model = new ChatOpenAI({
     apiKey: process.env.DEEPSEEK_API_KEY,
-    modelName: 'deepseek-v4-flash',
+    modelName: 'deepseek-flash',
     temperature: 0,
     configuration: { baseURL: process.env.DEEPSEEK_BASE_URL || 'https://api.deepseek.com' },
     timeout: 120_000,
