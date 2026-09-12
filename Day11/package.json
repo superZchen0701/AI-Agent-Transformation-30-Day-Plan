@@ -1,0 +1,15 @@
+{
+  "name": "Day11",
+  "version": "1.0.0",
+  "description": "第11天 - LangGraph Multi-Agent 实战：LangGraph Supervisor 模式实现代码审查系统",
+  "keywords": [],
+  "author": "chaozhi Chen",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "@langchain/core": "^1.2.9",
+    "@langchain/langgraph": "^1.4.14",
+    "@langchain/openai": "^1.5.11",
+    "dotenv": "^17.4.2"
+  }
+}
