@@ -1,0 +1,19 @@
+{
+  "name": "Day12",
+  "version": "1.0.0",
+  "description": "第12天 - RAG 原理：Embedding、向量检索、文本分片",
+  "keywords": [],
+  "author": "chaozhi Chen",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "@langchain/core": "^1.2.9",
+    "@langchain/langgraph": "^1.4.14",
+    "@langchain/openai": "^1.5.11",
+    "@langchain/textsplitters": "^1.0.1",
+    "dotenv": "^17.4.2",
+    "markdown-it": "^15.0.2",
+    "markitdown-ts": "^0.0.10",
+    "unpdf": "^1.8.1"
+  }
+}
