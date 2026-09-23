@@ -4,7 +4,7 @@
 
 - [《Hello-Agents》第6章「框架开发实践」6.2 AutoGen 软件开发团队](https://datawhalechina.github.io/hello-agents/#/./chapter6/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E6%A1%86%E6%9E%B6%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5?id=_62-%e6%a1%86%e6%9e%b6%e4%b8%80%ef%bc%9aautogen)，产品经理 / 工程师 / 代码审查员四个角色的任务分解与协作——正是"规划者 + 编码者 + 测试者"的原型。
 - [《Hello-Agents》第6章「框架开发实践」6.5 LangGraph 共享状态（State）](https://datawhalechina.github.io/hello-agents/#/./chapter6/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E6%A1%86%E6%9E%B6%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5?id=_65-%e6%a1%86%e6%9e%b6%e5%9b%9b%ef%bc%9alanggraph)，节点间上下文传递的机制。
-- [Anthropic《构建高效Agent》中文翻译·多智能体系统章节](https://blog.csdn.net/weixin_43807749/article/details/152788870)，Orchestrator-Worker、Pipeline、Debate、Hierarchical 四种编排模式的出处。
+- [Anthropic《构建高效Agent》中文翻译·多智能体系统章节](https://blog.csdn.net/weixin_43807749/article/details/152788870)，Orchestrator-Worker、Pipeline、Debate、Evaluator-Optimizer、Hierarchical 五种编排模式的出处。
 
 ---
 
@@ -31,7 +31,7 @@ Anthropic 的核心建议：**优先用单 Agent + 工具，只在多 Agent 能�
 
 ---
 
-## 1. 四种主流编排模式
+## 1. 五种主流编排模式
 
 ### 1.1 Pipeline（流水线 / Prompt Chaining）
 
